@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-
+	Char
 }
 
 //prototypes the function CountJumps :: fMove it above the int main after
