@@ -7,7 +7,7 @@ int main()
 
 }
 
-//prototypes the function CountJumps
+//prototypes the function CountJumps :: fMove it above the int main after
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 	int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
 
