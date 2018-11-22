@@ -31,7 +31,30 @@ int main()
 	xIndicesJump[MAX_PIECES];
 	yIndicesJump[MAX_PIECES];
 	cout << "Enter the number of squares along each edge of the board";
-	cin >> 
+	cin >> numRowsInBoard; //must be 8-18, even, and an integer, 3 chances
+	
+	if (!numRowsInBoard)
+	{
+		cerr << "ERROR: Board size is not an integer.";
+		return 1;
+	}
+	else if (numRowsInBoard < 8)
+	{
+		cerr << "ERROR: Board size too small.";
+		return 1;
+	}
+	else if (numRowsInBoard > 18)
+	{
+		cerr << "ERROR: Board size too large.";
+		return 1;
+	}
+	else if (%numRowsInBoard == 1)
+	{
+		cerr << "ERROR: Board size odd.";
+		return 1;
+	}
+
+
 }
 
 
