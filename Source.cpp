@@ -27,8 +27,9 @@ const int REDPLAYER = 2;
 
 int main()
 {
-	int numRowsInBoard;
 	int [y][x];
+	
+	int numRowsInBoard;
 	xIndicesJump[MAX_PIECES];
 	yIndicesJump[MAX_PIECES];
 	
@@ -52,7 +53,7 @@ int main()
 			cerr << "ERROR: Board size too large.\n8 <= number of squares <= 18\n";
 			continue;
 		}
-		else if (%numRowsInBoard == 1)// if not even
+		else if (numRowsInBoard%2 == 1)// if not even
 		{
 			cerr << "ERROR: Board size odd.\n8 <= number of squares <= 18\n";
 			continue;
@@ -64,6 +65,9 @@ int main()
 			return 1;
 		}
 	}
+	
+	//step 8
+	int CMCheckersBoard
 
 
 
