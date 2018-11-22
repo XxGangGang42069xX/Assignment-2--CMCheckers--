@@ -26,20 +26,36 @@ const int REDPLAYER = 2;
 
 int main()
 {
+	int numRowsInBoard;
 	int [y][x];
+	xIndicesJump[MAX_PIECES];
+	yIndicesJump[MAX_PIECES];
+	cout << "Enter the number of squares along each edge of the board";
+	cin >> 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 //prototypes the function CountJumps :: fMove it above the int main after
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 	int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
 
-//define the function CountJumps
+//define the function CountJumps :: Kill me
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 	int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
 {
 	//initialize all elements of yLocArray and xLocaray to -1
-	int xLocArray[1];
-	int yLocArray[1];
+	int xLocArray[];
+	int yLocArray[];
 	int index;
 	
 	for (index = 0; index < ; index++)
@@ -50,6 +66,7 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 	{
 		yLocArray[] = -1;
 	}
+	
 }
 	
 	
