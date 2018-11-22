@@ -67,7 +67,9 @@ int main()
 	}
 	
 	//step 8
-	int CMCheckersBoard
+	int CMCheckersBoard[0][]={0};
+	
+	InitializeBoard[][];
 
 
 
