@@ -4,6 +4,7 @@ Authors: Nicholas Hung, Mark Cheng, Eli Planas
 ☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭
 */
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -36,22 +37,22 @@ int main()
 	if (!numRowsInBoard)
 	{
 		cerr << "ERROR: Board size is not an integer.";
-		return 1;
+		continue;
 	}
 	else if (numRowsInBoard < 8)
 	{
 		cerr << "ERROR: Board size too small.";
-		return 1;
+		continue;
 	}
 	else if (numRowsInBoard > 18)
 	{
 		cerr << "ERROR: Board size too large.";
-		return 1;
+		continue;
 	}
 	else if (%numRowsInBoard == 1)
 	{
 		cerr << "ERROR: Board size odd.";
-		return 1;
+		continue;
 	}
 
 
