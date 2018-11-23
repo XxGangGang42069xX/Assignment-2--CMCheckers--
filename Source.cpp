@@ -104,32 +104,196 @@ void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int nu
 
 
 
-
-
-
-
-
 //prototypes the function CountJumps :: fMove it above the int main after
-int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
+int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
+	int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
 
 //define the function CountJumps :: Kill me
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 	int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
 {
+	//declare all local variables
+	int jumps = 0;
+	int i = 0;
+	int xIndex = 0;
+	int yIndex = 0;
+
 	//initialize all elements of yLocArray and xLocaray to -1
-	int xLocArray[];
-	int yLocArray[];
-	int index;
-	
-	for (index = 0; index < ; index++)
+	for (i = 0; i < MAX_PIECES ; i++)
 	{
-		xLocArray[] = -1;
+		xLocArray[i] = -1;
+		yLocArray[i] = -1;
 	}
-	for (index = 0; index < ; index++)
+	if (player == REDPLAYER) //red players
 	{
-		yLocArray[] = -1;
+		for (xIndex = 0; xIndex < numRowsInBoard; xIndex++)
+		{
+			for (yIndex = 0; yIndex < numRowsInBoard; yIndex++)
+			{
+				if ((xLocArray[xIndex], yLocArray[yIndex]) == (REDKING || REDMULE || REDSOLDIER))
+				{
+					if (IsJump(CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], numRowsInBoard, player, xIndex, yIndex) == true)
+					{
+						xLocArray[jumps] = xIndex;
+						yLocArray[jumps] = yIndex;
+						jumps++;
+					}
+				}
+				else if ((xLocArray[xIndex], yLocArray[yIndex]) != (REDKING || REDMULE || REDSOLDIER))
+				{
+					continue;
+				}
+			}
+		}
+		return jumps;
 	}
-	
+	if (player == WHITEPLAYER) //white players
+	{
+		for (xIndex = 0; xIndex < numRowsInBoard; xIndex++)
+		{
+			for (yIndex = 0; yIndex < numRowsInBoard; yIndex++)
+			{
+				if ((xLocArray[xIndex], yLocArray[yIndex]) == (WHITEKING || WHITEMULE || WHITESOLDIER))
+				{
+					if (IsJump(CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], numRowsInBoard, player, xIndex, yIndex) == true)
+					{
+						xLocArray[jumps] = xIndex;
+						yLocArray[jumps] = yIndex;
+						jumps++;
+					}
+				}
+			}
+		}
+		return jumps;
+	}
+
 }
+
+
+//prototype function CountMove1Squares
+int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
+	int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
+
+//define the function CountMove1Squares
+int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
+	int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
+{
+	int i = 0;
+	int xindex = 0;
+	int yindex = 0;
+	int count = 0;
+
+
+	for (i = 0; i < MAX_PIECES; i++)
+	{
+		xLocArray[i] = -1;
+		yLocArray[i] = -1;
+	}
 	
 	
+	if (player == REDPLAYER)		//red player
+	{
+		for (xindex = 0; xindex < numRowsInBoard; xindex++)
+		{
+			for (yindex = 0; yindex < numRowsInBoard; yindex++)
+			{
+				if ((xLocArray[xindex], yLocArray[yindex]) == (REDKING || REDMULE || REDSOLDIER))
+				{
+					if (IsMove1Square(CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], numRowsInBoard, player, xindex, yindex) == true)
+					{
+						xLocArray[count] = xindex;
+						yLocArray[count] = yindex;
+						count++;
+					}
+				}
+			}
+		}
+		return count;
+	}
+	if (player == WHITEPLAYER)		//white player
+	{
+		for (xindex = 0; xindex < numRowsInBoard; xindex++)
+		{
+			for (yindex = 0; yindex < numRowsInBoard; yindex++)
+			{
+				if ((xLocArray[xindex], yLocArray[yindex]) == (REDKING || REDMULE || REDSOLDIER))
+				{
+					if (IsMove1Square(CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], numRowsInBoard, player, xindex, yindex) == true)
+					{
+						xLocArray[count] = xindex;
+						yLocArray[count] = yindex;
+						count++;
+					}
+				}
+			}
+		}
+		return count;
+	}
+
+}
+
+//prototype the function IsMove1Square
+bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
+	int numRowsInBoard, int player, int xLoc, int yLoc);
+
+//define the function IsMove1Square
+bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
+	int numRowsInBoard, int player, int xLoc, int yLoc)
+{
+	if (player == REDPLAYER)//red player
+	{
+		if (CMCheckersBoard[xLoc][yLoc] == (REDMULE || REDSOLDIER || REDKING))
+		{
+			//check if front right/left are available to move to
+			if (CMCheckersBoard[xLoc + 1][yLoc + 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+			{
+				if (CMCheckersBoard[xLoc - 1][yLoc + 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+				{
+					//check if back right/left are available to move
+					if (CMCheckersBoard[xLoc][yLoc] == (REDKING))
+					{
+						if (CMCheckersBoard[xLoc - 1][yLoc - 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+						{
+							if (CMCheckersBoard[xLoc + 1][yLoc -1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+							{
+								return false;
+							}
+						}
+						
+					}
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
+	if (player == WHITEPLAYER)//white player
+	{
+		if (CMCheckersBoard[xLoc][yLoc] == (WHITEMULE || WHITESOLDIER || WHITEKING))
+		{
+			//check if front right/left are available to move to
+			if (CMCheckersBoard[xLoc + 1][yLoc - 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+			{
+				if (CMCheckersBoard[xLoc - 1][yLoc - 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+				{
+					//check if back right/left are available to move
+					if (CMCheckersBoard[xLoc][yLoc] == (REDKING))
+					{
+						if (CMCheckersBoard[xLoc - 1][yLoc + 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+						{
+							if (CMCheckersBoard[xLoc + 1][yLoc + 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+							{
+								return false;
+							}
+						}
+
+					}
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+	return 0;
+}
