@@ -26,7 +26,7 @@ const int REDPLAYER = 2;
 
 int main()
 {
-	int [y][x];
+	string myCMCheckersBoard[y][x] {/0};
 }
 
 //prototypes the function CountJumps :: fMove it above the int main after
