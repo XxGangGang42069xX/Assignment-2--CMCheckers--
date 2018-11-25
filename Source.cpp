@@ -14,6 +14,12 @@ void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int nu
 
 void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
+int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
+
+int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
+
+bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc);
+
 //Global variables
 const int MAX_ARRAY_SIZE = 18;
 const int MIN_ARRAY_SIZE = 8;
@@ -90,7 +96,58 @@ int main()
 		return 0;
 	}
 	InitializeBoard(myCMCheckersBoard, numRowsInBoard);
+	DisplayBoard(myCMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], numRowsInBoard);
+
+	player = WHITEPLAYER;
+	if (CountJumps == 0)// if the player has no more jumps
+	{
+		if (CountMove1Squares == 0)// if the player has no more moves
+		{
+			//the player has no more moves = he loses
+			cout << "White is unable to move.\nGAME OVER, Red has won.\nEnter any character to close the game.";
+			return 0;
+		}
+	}
+	else
+	{
+		cout << "White takes a turn.\n";
+	}
 	
+	while (!squarechoice)
+	{
+		cout << "Enter the square number of the checker you want to move\n";
+		cin >> squarechoice;
+		if (!squarechoice)//not an integer
+		{
+			cerr << "ERROR: You did not enter an integer\nTry again\n";
+			continue;
+		}
+		if (squarechoice is not on the board)//chosen square is not on the board
+		{
+			cerr << "ERROR: That square is not on the board.\nTry again\n";
+			continue;
+		}
+		if (squarechoice is not your checker)//chose and opponent's checker
+		{
+			cerr << "ERROR: That square contains an opponent's checker.\nTry again\n";
+			continue;
+		}
+		if (squarechoice is empty)//no checker at the chosen position
+		{
+			cerr << "ERROR: That square is empty.\nTry again\n";
+			continue;
+		}
+		if (squarechoice cannot jump, but CountJumps > 0)//if your chosen square can't jump, but another or others can
+		{
+			cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " << x << y << endl;
+			cerr << "Try again\n";
+			continue;
+		}
+		if (squarechoice)//cannot jump or move
+		{
+			cerr << "ERROR: There is no legal move for this checker.\nTry again\n";
+			continue;
+		}
 }
 
 void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard)
@@ -206,13 +263,7 @@ void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRo
 
 
 
-
-
-//prototypes the function CountJumps :: fMove it above the int main after
-int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
-	int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
-
-//define the function CountJumps :: Kill me
+//define the function CountJumps
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 	int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
 {
@@ -274,9 +325,6 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 }
 
 
-//prototype function CountMove1Squares
-int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
-	int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
 
 //define the function CountMove1Squares
 int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
@@ -336,9 +384,6 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 
 }
 
-//prototype the function IsMove1Square
-bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
-	int numRowsInBoard, int player, int xLoc, int yLoc);
 
 //define the function IsMove1Square
 bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
