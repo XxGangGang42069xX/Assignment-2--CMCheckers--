@@ -37,6 +37,15 @@ const int REDKING = 6;
 const int WHITEPLAYER = 1;
 const int REDPLAYER = 2;
 
+//for displaying the pieces
+const string WHITESOLDIERSTR = "WS";
+const string WHITEMULESTR = "WM";
+const string WHITEKINGSTR = "WK";
+const string REDSOLDIERSTR = "RS";
+const string REDMULESTR = "RM";
+const string REDKINGSTR = "RK";
+const string EMPTYSTR = "0";
+
 int main()
 {
 	int myCMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE] = {};
@@ -97,6 +106,7 @@ int main()
 	}
 	InitializeBoard(myCMCheckersBoard, numRowsInBoard);
 	DisplayBoard(myCMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], numRowsInBoard);
+	//at this point, the board is initialized and game is ready to be played
 
 	player = WHITEPLAYER;
 	if (CountJumps == 0)// if the player has no more jumps
@@ -257,7 +267,57 @@ void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int nu
 
 void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard)
 {
-	
+	int spotCounter;
+	spotCounter = 0;
+	for (int y = 0; y < numRowsInBoard; ++y)
+	{
+		for (int x = 0; x < numRowsInBoard; ++x)
+		{
+			
+			//cout << CMCheckersBoard[y][x] << " ";
+			switch (CMCheckersBoard[y][x]) 
+			{
+				case EMPTY:
+				{
+					cout << setw(4) << spotCounter;
+					break;
+				}
+				case WHITESOLDIER:
+				{
+					cout << setw(4) << WHITESOLDIERSTR;
+					break;
+				}
+				case WHITEMULE:
+				{
+					cout << setw(4) << WHITEMULESTR;
+					break;
+				}
+				case WHITEKING:
+				{
+					cout << setw(4) << WHITEKINGSTR;
+					break;
+				}
+				case REDSOLDIER:
+				{
+					cout << setw(4) << REDSOLDIERSTR;
+					break;
+				}
+				case REDMULE:
+				{
+					cout << setw(4) << REDMULESTR;
+					break;
+				}
+				case REDKING:
+				{
+					cout << setw(4) << REDKINGSTR;
+					break;
+				}
+			}
+			spotCounter++;
+		}
+		cout << endl;
+	}
+	cout << endl << endl << endl;
 }
 
 
