@@ -12,6 +12,7 @@ using namespace std;
 //function prototypes
 void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
+void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
 //Global variables
 const int MAX_ARRAY_SIZE = 18;
@@ -89,15 +90,118 @@ int main()
 		return 0;
 	}
 	InitializeBoard(myCMCheckersBoard, numRowsInBoard);
-
+	
 }
 
 void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard)
 {
+	int rowsWSoldiers;
+	int x;
+	int y;
+	rowsWSoldiers = (numRowsInBoard / 2) - 1;
+	//add the mules in the white side
+	for (x = 0; x < numRowsInBoard; x++)
+	{
+		if (x % 2 != 0)
+		{
+			CMCheckersBoard[0][x] = WHITEMULE;
+		}
+		else
+		{
+			CMCheckersBoard[0][x] = EMPTY;
+		}
+	}
 
+	//add the white soldiers
+	for (y = 1; y < rowsWSoldiers; y++)
+	{
+		if (y % 2 != 0)//odd row
+		{
+			for (x = 0; x < numRowsInBoard; x++)
+			{
+				if (x % 2 != 0)//odd col
+				{
+					CMCheckersBoard[y][x] = EMPTY;
+				}
+				else//even col
+				{
+					CMCheckersBoard[y][x] = WHITESOLDIER;
+				}
+			}
+		}
+		else//even row
+		{
+			for (x = 0; x < numRowsInBoard; x++)
+			{ 
+				if (x % 2 != 0)//odd col
+				{
+					CMCheckersBoard[y][x] = WHITESOLDIER;
+				}
+				else//even col
+				{
+					CMCheckersBoard[y][x] = EMPTY;
+				}
+			}
+		}
+	}
+	//two empty rows
+	for (y = rowsWSoldiers; y < (rowsWSoldiers + 2); y++)
+	{
+		for (x = 0; x < numRowsInBoard; x++)
+		{
+			CMCheckersBoard[y][x] = EMPTY;
+		}
+	}
+	//rows of red soldiers
+	for (int y = (rowsWSoldiers + 2); y < (numRowsInBoard - 1); y++)
+	{
+		if (y % 2 != 0)//odd row
+		{
+			for (x = 0; x < numRowsInBoard; x++)
+			{
+				if (x % 2 != 0)//odd col
+				{
+					CMCheckersBoard[y][x] = EMPTY;
+				}
+				else//even col
+				{
+					CMCheckersBoard[y][x] = REDSOLDIER;
+				}
+			}
+		}
+		else//even row
+		{
+			for (x = 0; x < numRowsInBoard; x++)
+			{
+				if (x % 2 != 0)//odd col
+				{
+					CMCheckersBoard[y][x] = REDSOLDIER;
+				}
+				else//even
+				{
+					CMCheckersBoard[y][x] = EMPTY;
+				}
+			}
+		}
+	}
+	//row of red mules
+	for (x = 0; x < numRowsInBoard; x++)
+	{
+		if (x % 2 != 0)
+		{
+			CMCheckersBoard[numRowsInBoard - 1][x] = EMPTY;
+		}
+		else
+		{
+			CMCheckersBoard[numRowsInBoard - 1][x] = REDMULE;
+		}
+	}
 }
 
-
+void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard)
+{
+	
+}
 
 
 
