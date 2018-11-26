@@ -122,7 +122,17 @@ int main()
 	DisplayBoard(myCMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], numRowsInBoard);
 	//at this point, the board is initialized and game is ready to be played
 
-	player = WHITEPLAYER;
+	//determines which player it is by incrementing
+	player++;
+	if (player % 2 != 0)
+	{
+		player = WHITEPLAYER;
+	}
+	else
+	{
+		player = REDPLAYER;
+	}
+	
 	while (!checkwin)
 	{
 		if (CountMove1Squares(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) == 0 && CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) == 0)
