@@ -600,5 +600,34 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 	}
 }
 
+bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
+	
+bool CheckWin() //not sure which data type i should be using here, since it's returning true or false i THINK 
+                //this should be right...
+{
+	if (REDMULE == 0)
+	{
+		cout << "The Red Player has won the game by losing all of the Red Mules";
+		return true;
+	}
+	else if (WHITEMULE == 0)
+	{
+		cout << "The White Player has won the game by losing all of the White Mules";
+		return true;
+	}
+	else if (REDSOLDIER == 0 && REDKING == 0)
+	{
+		cout << "The White Player has won by capturing all of the red players soldiers and kings";
+		return true;
+	}
+	else if (WHITESOLDIER == 0 && WHITEKING == 0)
+	{
+		cout << "The Red Player has won by capturing all of the white players soldiers and kings";
+		return true;
+	}
+	else               //if none of the above 4 conditions are met...
+		return false;
 
+	return;
+}
 
