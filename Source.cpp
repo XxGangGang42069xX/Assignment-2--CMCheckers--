@@ -493,6 +493,7 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int n
 
 
 //define the function IsMove1Square
+//define the function IsMove1Square
 bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 	int numRowsInBoard, int player, int xLoc, int yLoc)
 {
@@ -502,39 +503,48 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 		{
 			if (xLoc == 0)//if on the extreme left
 			{
-				if (CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+				if (CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == EMPTY)
 				{
-					return false;
+					return true;
+				}
+				else if (CMCheckersBoard[yLoc + 1][xLoc + 1] == EMPTY)
+				{
+					return true;
 				}
 			}
 			if (xLoc == (numRowsInBoard - 1))//if on the extreme right
 			{
-				if (CMCheckersBoard[yLoc + 1][xLoc - (numRowsInBoard - 1)] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+				if (CMCheckersBoard[yLoc + 1][xLoc - (numRowsInBoard - 1)] == EMPTY)
 				{
-					return false;
+					return true;
+				}
+				else if (CMCheckersBoard[yLoc + 1][xLoc - 1] == EMPTY)
+				{
+					return true;
 				}
 			}
 			//check if front right/left are available to move to
-			if (CMCheckersBoard[yLoc + 1][xLoc + 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+			if (CMCheckersBoard[yLoc + 1][xLoc + 1] == EMPTY)
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+				return true;
+			}
+			else if (CMCheckersBoard[yLoc + 1][xLoc - 1] == EMPTY)
+			{
+				return true;
+			}
+
+			//check if back right/left are available to move
+			if (CMCheckersBoard[yLoc][xLoc] == (REDKING))
+			{
+				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == EMPTY)
 				{
-					//check if back right/left are available to move
-					if (CMCheckersBoard[yLoc][xLoc] == (REDKING))
-					{
-						if (CMCheckersBoard[yLoc - 1][xLoc - 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
-						{
-							if (CMCheckersBoard[yLoc + 1][xLoc -1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
-							{
-								return false;
-							}
-						}
-						
-					}
-					return false;
+					return true;
+				}
+				else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == EMPTY)
+				{
+					return true;
 				}
 			}
-			return true;
 		}
 	}
 
@@ -544,41 +554,51 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 		{
 			if (xLoc == 0)//if on the extreme left
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc + (numRowsInBoard - 1)] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+				if (CMCheckersBoard[yLoc - 1][xLoc + (numRowsInBoard - 1)] == EMPTY)
 				{
-					return false;
+					return true;
+				}
+				else if (CMCheckersBoard[yLoc - 1][xLoc + 1] == EMPTY)
+				{
+					return true;
 				}
 			}
 			if (xLoc == (numRowsInBoard - 1))//if on the extreme right
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc - (numRowsInBoard - 1)] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+				if (CMCheckersBoard[yLoc - 1][xLoc - (numRowsInBoard - 1)] == EMPTY)
 				{
-					return false;
+					return true;
+				}
+				else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == EMPTY)
+				{
+					return true;
 				}
 			}
 			//check if front right/left are available to move to
-			if (CMCheckersBoard[yLoc + 1][xLoc - 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
+			if (CMCheckersBoard[yLoc - 1][xLoc + 1] == EMPTY)
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
-				{
-					//check if back right/left are available to move
-					if (CMCheckersBoard[yLoc][xLoc] == (REDKING))
-					{
-						if (CMCheckersBoard[yLoc - 1][xLoc + 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
-						{
-							if (CMCheckersBoard[yLoc + 1][xLoc + 1] == (WHITESOLDIER || WHITEMULE || WHITEKING || REDSOLDIER || REDMULE || REDKING))
-							{
-								return false;
-							}
-						}
+				return true;
+			}
+			else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == EMPTY)
+			{
+				return true;
+			}
 
-					}
-					return false;
+			//check if back right/left are available to move
+			if (CMCheckersBoard[yLoc][xLoc] == (REDKING))
+			{
+				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == EMPTY)
+				{
+					return true;
+				}
+				else if (CMCheckersBoard[yLoc + 1][xLoc + 1] == EMPTY)
+				{
+					return true;
 				}
 			}
-			return true;
 		}
 	}
 }
+
 
 
