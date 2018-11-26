@@ -38,6 +38,7 @@ const int REDMULE = 5;
 const int REDKING = 6;
 const int WHITEPLAYER = 1;
 const int REDPLAYER = 2;
+const int EMPTY = 0;
 
 //for displaying the pieces
 const string WHITESOLDIERSTR = "WS";
@@ -122,6 +123,31 @@ int main()
 	//at this point, the board is initialized and game is ready to be played
 
 	player = WHITEPLAYER;
+	while (!checkwin)
+	{
+		if (CountMove1Squares(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) == 0 && CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) == 0)
+		{
+			//player can't do any moves opposing player wins
+			/*White/red is unable to move.
+
+			GAME OVER, Red/white has won.
+
+			Enter any character to close the game.*/
+		}
+		if (player == WHITEPLAYER)
+		{
+			cout << "White takes a turn.\n";
+		}
+		else
+		{
+			cout << "Red takes a turn.\n";
+		}
+		//prompt for which checker to move
+		cout << "Enter the square number of the checker you want to move\n";
+		cin >> checkerMoved;
+		//chekc the input if it is valid :: it is an int, it is the player's checker, it is in the board
+	}
+	
 	if (CountJumps == 0)// if the player has no more jumps
 	{
 		if (CountMove1Squares == 0)// if the player has no more moves
