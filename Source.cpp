@@ -59,9 +59,20 @@ int main()
 	int numRowsInBoard;
 	int tries;
 	int MAXtries;
+	int lol;
+	int lel;
 
 	numRowsInBoard = 0;
 	MAXtries = 3;
+	
+	//initialize this array to all 0s
+	for (lol = 0; lol < MAX_ARRAY_SIZE; lol++)
+	{
+		for (lel = 0; lel < MAX_ARRAY_SIZE; lel++)
+		{
+			myCMCheckersBoard[lol][lel] = 0, 0;
+		}
+	}
 	
 	for (tries = 0; tries < MAXtries; tries++)
 	{
@@ -330,7 +341,7 @@ void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc)
 	yLoc = input / numRowsInBoard;
 	xLoc = input - (yLoc * numRowsInBoard);
 
-	//cout << numRowsInBoard << " --- > " << input << endl << xLoc << endl << yLoc;
+	//cout << numRowsInBoard << input << endl << xLoc << endl << yLoc;
 
 }
 
