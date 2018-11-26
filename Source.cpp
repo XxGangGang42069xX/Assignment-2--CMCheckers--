@@ -20,6 +20,8 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int n
 
 bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc);
 
+void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc);
+
 //Global variables
 const int MAX_ARRAY_SIZE = 18;
 const int MIN_ARRAY_SIZE = 8;
@@ -320,7 +322,17 @@ void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRo
 	cout << endl << endl << endl;
 }
 
+void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc)
+{
+	int yLoc = 0;
+	int xLoc = 0;
 
+	yLoc = input / numRowsInBoard;
+	xLoc = input - (yLoc * numRowsInBoard);
+
+	//cout << numRowsInBoard << " --- > " << input << endl << xLoc << endl << yLoc;
+
+}
 
 
 //define the function CountJumps
