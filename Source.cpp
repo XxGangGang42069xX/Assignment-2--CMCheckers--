@@ -56,6 +56,8 @@ int main()
 	int yIndicesMove[MAX_PIECES] = {};
 	int xIndicesJump[MAX_PIECES] = {};
 	int yIndicesJump[MAX_PIECES] = {};
+	int xLocArray[]={};
+	int yLocArray[]={};
 	string numRowsInBoardstr;
 	int numRowsInBoard;
 	int tries;
@@ -73,6 +75,12 @@ int main()
 		{
 			myCMCheckersBoard[lol][lel] = 0, 0;
 		}
+	}
+	//initialize the xLocArray and yLoxArrray to all 0s
+	for (lol = 0; lol < MAX_ARRAY_SIZE; lol++)
+	{
+		xLocArray[lol] = 0;
+		yLocArray[lol] = 0;
 	}
 	
 	for (tries = 0; tries < MAXtries; tries++)
