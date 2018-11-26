@@ -324,8 +324,7 @@ void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRo
 
 
 //define the function CountJumps
-int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
-	int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
+int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
 {
 	//declare all local variables
 	int jumps = 0;
@@ -387,8 +386,7 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 
 
 //define the function CountMove1Squares
-int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
-	int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
+int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
 {
 	int i = 0;
 	int xindex = 0;
@@ -446,8 +444,7 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
 
 
 //define the function IsMove1Square
-bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],
-	int numRowsInBoard, int player, int xLoc, int yLoc)
+bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc)
 {
 	if (player == REDPLAYER)//red player
 	{
