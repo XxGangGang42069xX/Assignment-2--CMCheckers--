@@ -9,19 +9,6 @@ Authors: Nicholas Hung, Mark Cheng, Eli Planas
 
 using namespace std;
 
-//function prototypes
-void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
-
-void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
-
-int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
-
-int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
-
-bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc);
-
-void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc);
-
 //Global variables
 const int MAX_ARRAY_SIZE = 18;
 const int MIN_ARRAY_SIZE = 8;
@@ -48,6 +35,19 @@ const string REDSOLDIERSTR = "RS";
 const string REDMULESTR = "RM";
 const string REDKINGSTR = "RK";
 const string EMPTYSTR = "0";
+
+//function prototypes
+void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
+
+void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
+
+int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
+
+int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
+
+bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc);
+
+void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc);
 
 int main()
 {
@@ -105,12 +105,12 @@ int main()
 			continue;
 		}
 		//check the size
-		else if (numRowsInBoard > MIN_ARRAY_SIZE)
+		else if (numRowsInBoard < MIN_ARRAY_SIZE)
 		{
 			cerr << "ERROR: Board size too small.\n8 <= number of squares <= 18\n";
 			continue;
 		}
-		else if (numRowsInBoard < MAX_ARRAY_SIZE)
+		else if (numRowsInBoard > MAX_ARRAY_SIZE)
 		{
 			cerr << "ERROR: Board size too large.\n8 <= number of squares <= 18\n";
 			continue;
