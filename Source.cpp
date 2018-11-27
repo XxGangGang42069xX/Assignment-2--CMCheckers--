@@ -1,4 +1,8 @@
-
+/*
+☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭
+Authors: Nicholas Hung, Eli Planas, Mark Cheng
+☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭
+*/
 #include <iostream>
 #include <cmath>
 #include <string>
@@ -44,7 +48,13 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int n
 
 bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc);
 
+bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc);
+
 void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc);
+
+bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int fromSquareNum, int toSquareNum, bool &jumped);
+
+bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
 int main()
 {
@@ -1194,4 +1204,68 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 		return false;
 	}*/
 	
+}
+	
+bool CheckWin() //not sure which data type i should be using here, since it's returning true or false i THINK 
+                //this should be right...
+{
+ 	int redSOLDIERcount = 0;
+	int redKINGcount = 0;
+	int redMULEcount = 0;
+	int whiteSOLDIERcount = 0;
+	int whiteKINGcount = 0;
+	int whiteMULEcount = 0;
+ 	for (i = 0, i < numRowsInBoard, i++)
+	{
+		for (j = 0, j < numRowsInBoard, j++)
+		{
+			if (CMCheckersBoard[i][j] == REDSOLDIER)
+			{
+				redSOLDIERcount++
+			}
+			else if (CMCheckersBoard[i][j] == REDKING)
+			{
+				redKINGcount++
+			}
+			else if (CMCheckersBoard[i][j] == REDMULE)
+			{
+				redMULEcount++
+			}
+			else if (CMCheckersBoard[i][j] == WHITESOLDIER)
+			{
+				whiteSOLDIERcount++
+			}
+			else if (CMCheckersBoard[i][j] == WHITEKING)
+			{
+				whiteKINGcount++
+			}
+			else if (CMCheckersBoard[i][j] == WHITEMULE)
+			{
+				whiteMULEcount++
+			}
+		}
+	}
+	if (redMULEcount == 0)
+	{
+		cout << "The Red Player has won the game by losing all of the Red Mules";
+		return true;
+	}
+	else if (whiteMULEcount == 0)
+	{
+		cout << "The White Player has won the game by losing all of the White Mules";
+		return true;
+	}
+	else if (redSOLDIERcount == 0 && redKINGcount == 0)
+	{
+		cout << "The White Player has won by capturing all of the red players soldiers and kings";
+		return true;
+	}
+	else if (whiteSOLDIERcount == 0 && whiteKINGcount == 0)
+	{
+		cout << "The Red Player has won by capturing all of the white players soldiers and kings";
+		return true;
+	}
+	else               //if none of the above 4 conditions are met...
+		return false;
+ 	return;
 }
