@@ -745,6 +745,7 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsI
 
 
 	//define MakeMove
+	//define MakeMove
 	bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int fromSquareNum, int toSquareNum, bool &jumped)
 	{
 		int xdistance = 0;
@@ -757,9 +758,86 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsI
 		getCoordinate(numRowsInBoard, fromSquareNum, xinitial, yinitial);
 		getCoordinate(numRowsInBoard, toSquareNum, xfinal, yfinal);
 
-		xdistance = xfinal - xinitial;
-		ydistance = yfinal - yinitial;
+		xdistance = abs(xfinal - xinitial);
+		ydistance = abs(yfinal - yinitial);
 
-		if ()
+		if ((CMCheckersBoard[yinitial][xinitial]) == (WHITESOLDIER)))
+		{
+			if (xinitial == (numRowsinBoard - 2))
+			{
+				if ((xfinal == 0) && (ydistance == 2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
+				{
+					swap((CMCheckers[yinitial][xinitial]), (CMCheckers[yfinal][xfinal]));
+					return true;
+				}
+				else if (ydistance != 2)
+				{
+					cerr << "ERROR: Illegal move\n";
+					return false;
+				}
+			}
+			if (xinitial == (numRowsinBoard - 1))
+			{
+				if ((xfinal == 0) && (ydistance == 1))
+				{
+					swap(CMCheckers[yinitial][xinitial], CMCheckers[yfinal][xfinal]);
+					return true;
+				}
+				else if (ydistance != 1)
+				{
+					cerr << "ERROR: Illegal move\n";
+					return false;
+				}
+
+				if ((xfinal == 1) && (ydistance == 2))
+				{
+					swap(CMCheckers[yinitial][xinitial], CMCheckers[yfinal][xfinal]);
+					return true;
+				}
+				else if (ydistance != 2)
+				{
+					cerr << "ERROR: Illegal move\n";
+				}
+
+			}
+
+			if (xinitial == (1))
+			{
+				if (xfinal ==
+			}
+		}
+		
+			
+			
+			
+		if (CMCheckersBoard[yinitial][xinitial] == (REDSOLDIER)
+
+
+		
+		//if x wraps around the left of the board
+		if (xinitial == 0)
+		{
+			if (xfinal == numRowsinBoard && ydistance)
+			{
+
+			}
+		}
+		//xdistance = ydistance
+		if (xdistance != ydistance)
+		{
+			cerr << "ERROR: Illegal move\n";
+			return false;
+		}
+
+		//if a jump move
+		if (ydistance == 2 && xdistance == 2)
+		{
+			return true;
+		}
+		//if a step move
+		if (ydistance == 1 && xdistance == 1)
+		{
+			return false;
+		}
+	
 	}
-
