@@ -4,9 +4,9 @@ Authors: Nicholas Hung, Mark Cheng, Eli Planas
 ☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭
 */
 #include <iostream>
-#include <iomanip>
 #include <cmath>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -57,33 +57,34 @@ int main()
 	int yIndicesMove[MAX_PIECES] = {};
 	int xIndicesJump[MAX_PIECES] = {};
 	int yIndicesJump[MAX_PIECES] = {};
-	int xLocArray[]={};
-	int yLocArray[]={};
+	int xLocArray[MAX_ARRAY_SIZE] = {};
+	int yLocArray[MAX_ARRAY_SIZE] = {};
 	string numRowsInBoardstr;
 	int numRowsInBoard;
 	int tries;
 	int MAXtries;
 	int lol;
 	int lel;
+	int player;
+	string checkerMovedstr;
+	int checkerMoved;
+	string checkerPlacedstr;
+	int checkerPlaced;
+	int xInitial;
+	int yInitial;
+	int xFinal;
+	int yFinal;
 
 	numRowsInBoard = 0;
 	MAXtries = 3;
-	
-	//initialize this array to all 0s
-	for (lol = 0; lol < MAX_ARRAY_SIZE; lol++)
-	{
-		for (lel = 0; lel < MAX_ARRAY_SIZE; lel++)
-		{
-			myCMCheckersBoard[lol][lel] = 0, 0;
-		}
-	}
-	//initialize the xLocArray and yLoxArrray to all 0s
-	for (lol = 0; lol < MAX_ARRAY_SIZE; lol++)
-	{
-		xLocArray[lol] = 0;
-		yLocArray[lol] = 0;
-	}
-	
+	player = 0;
+	checkerMoved = 0;
+	xInitial = 0;
+	yInitial = 0;
+	xFinal = 0;
+	yFinal = 0;
+
+
 	for (tries = 0; tries < MAXtries; tries++)
 	{
 		cout << "Enter the number of squares along each edge of the board\n";
@@ -106,17 +107,17 @@ int main()
 			continue;
 		}
 		//check the size
-		else if (numRowsInBoard > MIN_ARRAY_SIZE)
+		else if (numRowsInBoard < MIN_ARRAY_SIZE)
 		{
 			cerr << "ERROR: Board size too small.\n8 <= number of squares <= 18\n";
 			continue;
 		}
-		else if (numRowsInBoard < MAX_ARRAY_SIZE)
+		else if (numRowsInBoard > MAX_ARRAY_SIZE)
 		{
 			cerr << "ERROR: Board size too large.\n8 <= number of squares <= 18\n";
 			continue;
 		}
-		else 
+		else
 		{
 			// it is an integer
 			break;
@@ -128,7 +129,7 @@ int main()
 		return 0;
 	}
 	InitializeBoard(myCMCheckersBoard, numRowsInBoard);
-	DisplayBoard(myCMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], numRowsInBoard);
+	DisplayBoard(myCMCheckersBoard, numRowsInBoard);
 	//at this point, the board is initialized and game is ready to be played
 
 	player++;
@@ -140,7 +141,7 @@ int main()
 	{
 		player = REDPLAYER;
 	}
-	
+
 	while (!checkwin)
 	{
 		if (CountMove1Squares(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) == 0 && CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) == 0)
@@ -243,58 +244,16 @@ int main()
 				}
 			}
 		}
+		//prompt for the square the checker is moving to
+		while ("my ass" == "my ass")
+		{
+			cout << "Enter the square number of the square you want to move your checker to";
+			cin >> 
+		}
 
 	}
-	
-	if (CountJumps == 0)// if the player has no more jumps
-	{
-		if (CountMove1Squares == 0)// if the player has no more moves
-		{
-			//the player has no more moves = he loses
-			cout << "White is unable to move.\nGAME OVER, Red has won.\nEnter any character to close the game.";
-			return 0;
-		}
-	}
-	else
-	{
-		cout << "White takes a turn.\n";
-	}
-	
-	while (!squarechoice)
-	{
-		cout << "Enter the square number of the checker you want to move\n";
-		cin >> squarechoice;
-		if (!squarechoice)//not an integer
-		{
-			cerr << "ERROR: You did not enter an integer\nTry again\n";
-			continue;
-		}
-		if (squarechoice is not on the board)//chosen square is not on the board
-		{
-			cerr << "ERROR: That square is not on the board.\nTry again\n";
-			continue;
-		}
-		if (squarechoice is not your checker)//chose and opponent's checker
-		{
-			cerr << "ERROR: That square contains an opponent's checker.\nTry again\n";
-			continue;
-		}
-		if (squarechoice is empty)//no checker at the chosen position
-		{
-			cerr << "ERROR: That square is empty.\nTry again\n";
-			continue;
-		}
-		if (squarechoice cannot jump, but CountJumps > 0)//if your chosen square can't jump, but another or others can
-		{
-			cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " << x << y << endl;
-			cerr << "Try again\n";
-			continue;
-		}
-		if (squarechoice)//cannot jump or move
-		{
-			cerr << "ERROR: There is no legal move for this checker.\nTry again\n";
-			continue;
-		}
+
+		
 }
 
 void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard)
@@ -803,3 +762,4 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsI
 
 		if ()
 	}
+
