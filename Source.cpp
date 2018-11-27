@@ -247,9 +247,42 @@ int main()
 		//prompt for the square the checker is moving to
 		while ("my ass" == "my ass")
 		{
+		while ("my ass" == "my ass")
+		{
 			cout << "Enter the square number of the square you want to move your checker to";
-			cin >> 
+			cin >> checkerPlacedstr;
+			for (int i = 0; i < checkerPlacedstr.size(); i++)
+			{
+				if (!isdigit(checkerPlacedstr.at(i)))
+				{
+					cerr << "ERROR: You did not enter an integer\nTry again\n";
+					continue;
+				}
+			}
+			checkerPlaced = stoi(checkerPlacedstr);
+			if ((checkerPlaced > ((numRowsInBoard * numRowsInBoard) - 1)) || checkerPlaced < 0)//not located on board!
+			{
+				cerr << "ERROR: That square is not on the board.\nTry again\n";
+				continue;
+			}
+			getCoordinate(numRowsInBoard, checkerPlaced, xFinal, yFinal);
+			if (myCMCheckersBoard[xFinal][yFinal] != EMPTY)
+			{
+				cerr << "ERROR: It is not possible to move to a square that is already occupied.\nTry again";
+				continue;
+			}
+			else if ((myCMCheckersBoard[xFinal][yFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)))
+			{
+				cerr << "ERROR: You can jump with this checker, you must jump not move 1 space.\nTry again";
+				continue;
+			}
+			else
+			{
+				break;
+			}
 		}
+		makeMove;//determines if the move is legal
+		//if it return jump with true
 
 	}
 
