@@ -154,11 +154,8 @@ int main()
 		{
 			//player can't do any moves opposing player wins
 			/*White/red is unable to move.
-
 			GAME OVER, Red/white has won.
-
 			Enter any character to close the game.
-
 			//the player has no more moves = he loses
 			cout << "White is unable to move.\nGAME OVER, Red has won.\nEnter any character to close the game.";
 			return 0;
@@ -177,7 +174,7 @@ int main()
 		{
 			cout << "Enter the square number of the checker you want to move\n";
 			cin >> checkerMovedstr;
-			//chekc the input if it is valid :: it is an int, it is the player's checker, it is in the board
+			//check the input if it is valid :: it is an int, it is the player's checker, it is in the board
 			for (int i = 0; i < checkerMovedstr.size(); i++)
 			{
 				if (!isdigit(checkerMovedstr.at(i)))
@@ -286,11 +283,11 @@ int main()
 				break;
 			}
 
-			makeMove;//determines if the move is legal
+			MakeMove;//determines if the move is legal
 			//if it returns *jump with true, you jumped niBBA, do it again if you can
 
 		}
-		
+
 
 	}
 
@@ -457,11 +454,10 @@ void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRo
 
 void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc)
 {
-	int yLoc = 0;
-	int xLoc = 0;
+	yLoc = 0;
+	xLoc = 0;
 	yLoc = input / numRowsInBoard;
 	xLoc = input - (yLoc * numRowsInBoard);
-	//cout << numRowsInBoard << input << endl << xLoc << endl << yLoc;
 }
 
 //define the function CountJumps
@@ -484,7 +480,7 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsI
 		{
 			for (xIndex = 0; xIndex < numRowsInBoard; xIndex++)
 			{
-				if ((CMCheckersBoard[yIndex][xIndex]) == (REDKING || REDMULE || REDSOLDIER))
+				if ((CMCheckersBoard[yIndex][xIndex]) == REDKING || (CMCheckersBoard[yIndex][xIndex]) == REDMULE || (CMCheckersBoard[yIndex][xIndex]) == REDSOLDIER)
 				{
 					if (IsJump(CMCheckersBoard, numRowsInBoard, player, xIndex, yIndex))
 					{
@@ -503,7 +499,7 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsI
 		{
 			for (xIndex = 0; xIndex < numRowsInBoard; xIndex++)
 			{
-				if ((CMCheckersBoard[yIndex][xIndex]) == (WHITEKING || WHITEMULE || WHITESOLDIER))
+				if ((CMCheckersBoard[yIndex][xIndex]) == WHITEKING || (CMCheckersBoard[yIndex][xIndex]) == WHITEMULE || (CMCheckersBoard[yIndex][xIndex]) == WHITESOLDIER)
 				{
 					if (IsJump(CMCheckersBoard, numRowsInBoard, player, xIndex, yIndex))
 					{
@@ -540,7 +536,7 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int n
 		{
 			for (xindex = 0; xindex < numRowsInBoard; xindex++)
 			{
-				if ((CMCheckersBoard[yindex][xindex]) == (REDKING || REDMULE || REDSOLDIER))
+				if ((CMCheckersBoard[yindex][xindex]) == REDKING || (CMCheckersBoard[yindex][xindex]) == REDMULE || (CMCheckersBoard[yindex][xindex]) == REDSOLDIER)
 				{
 					if (IsMove1Square(CMCheckersBoard, numRowsInBoard, player, xindex, yindex) == true)
 					{
@@ -559,7 +555,7 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int n
 		{
 			for (xindex = 0; xindex < numRowsInBoard; xindex++)
 			{
-				if ((CMCheckersBoard[yindex][xindex]) == (REDKING || REDMULE || REDSOLDIER))
+				if ((CMCheckersBoard[yindex][xindex]) == REDKING || (CMCheckersBoard[yindex][xindex]) == REDMULE || (CMCheckersBoard[yindex][xindex]) == REDSOLDIER)
 				{
 					if (IsMove1Square(CMCheckersBoard, numRowsInBoard, player, xindex, yindex) == true)
 					{
@@ -579,7 +575,7 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 {
 	if (player == REDPLAYER)//red player
 	{
-		if (CMCheckersBoard[yLoc][xLoc] == (REDMULE || REDSOLDIER || REDKING))
+		if (CMCheckersBoard[yLoc][xLoc] == REDMULE || CMCheckersBoard[yLoc][xLoc] == REDSOLDIER || CMCheckersBoard[yLoc][xLoc] == REDKING)
 		{
 			if (xLoc == 0)//if on the extreme left
 			{
@@ -630,7 +626,7 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 
 	if (player == WHITEPLAYER)//white player
 	{
-		if (CMCheckersBoard[yLoc][xLoc] == (WHITEMULE || WHITESOLDIER || WHITEKING))
+		if (CMCheckersBoard[yLoc][xLoc] == WHITEMULE || CMCheckersBoard[yLoc][xLoc] == WHITESOLDIER || CMCheckersBoard[yLoc][xLoc] == WHITEKING)
 		{
 			if (xLoc == 0)//if on the extreme left
 			{
@@ -685,7 +681,7 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numR
 {
 	if (player == REDPLAYER)//red player
 	{
-		if (CMCheckersBoard[yLoc][xLoc] == (REDMULE || REDSOLDIER || REDKING))
+		if (CMCheckersBoard[yLoc][xLoc] == REDMULE || CMCheckersBoard[yLoc][xLoc] == REDSOLDIER || CMCheckersBoard[yLoc][xLoc] == REDKING)
 		{
 			if (xLoc == 0)//if on the extreme left
 			{
@@ -736,7 +732,7 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numR
 
 	if (player == WHITEPLAYER)//white player
 	{
-		if (CMCheckersBoard[yLoc][xLoc] == (WHITEMULE || WHITESOLDIER || WHITEKING))
+		if (CMCheckersBoard[yLoc][xLoc] == WHITEMULE || CMCheckersBoard[yLoc][xLoc] == WHITESOLDIER || CMCheckersBoard[yLoc][xLoc] == WHITEKING)
 		{
 			if (xLoc == 0)//if on the extreme left
 			{
@@ -785,7 +781,6 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numR
 		}
 	}
 }
-
 
 //define MakeMove
 bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int fromSquareNum, int toSquareNum, bool &jumped)
@@ -1089,159 +1084,44 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 			return true;
 		}
 	}
-
-		//RED onzies
-		if ((CMCheckersBoard[yinitial][xinitial]) == REDSOLDIER || (CMCheckersBoard[yinitial][xinitial]) == REDMULE)
-		{
-
-		}
-
-
-
-		/*//if the xinitial is on the left second space
-		if (xinitial == (1))
-		{
-			if (xfinal == (numRowsInBoard - 1) && (ydirection == -2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
-			{
-				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
-				return true;
-			}
-			else if (ydirection != -2)
-			{
-				cerr << "ERROR: Illegal move\n";
-				return false;
-			}
-			else if ((xfinal == (numRowsInBoard - 1)) && (ydirection == -2) && !(IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
-			{
-				cerr << "ERROR: Illegal move\n";
-				return false;
-			}
-		}
-		//if the xinitial is on the very far left
-		if (xinitial == (0))
-		{
-			if (xfinal == (numRowsInBoard - 1) && (ydirection == -1))
-			{
-				swap(CMCheckersBoard[yinitial][xinitial], CMCheckersBoard[yfinal][xfinal]);
-				return true;
-			}
-			else if (ydirection != -1)
-			{
-				cerr << "ERROR: Illegal move\n";
-				return false;
-			}
-
-			if (xfinal == (numRowsInBoard - 2) && (ydirection == -2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
-			{
-				swap(CMCheckersBoard[yinitial][xinitial], CMCheckersBoard[yfinal][xfinal]);
-				return true;
-			}
-			else if (ydirection != -2)
-			{
-				cerr << "ERROR: Illegal move\n";
-				return false;
-			}
-			else if ((xfinal == (numRowsInBoard - 2)) && (ydirection == -2) && !(IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
-			{
-				cerr << "ERROR: Illegal move\n";
-				return false;
-			}
-		}
-
-		if ((CMCheckersBoard[yinitial][xinitial]) == (REDKING))//looking at redkings
-		{
-			if (xinitial == (numRowsInBoard - 2))
-			{
-				if ((xfinal == 0) && (ydirection == 2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
-				{
-					swap(CMCheckersBoard[yinitial][xinitial], CMCheckersBoard[yfinal][xfinal]);
-					return true;
-				}
-				else if (ydirection != 2)
-				{
-					cerr << "ERROR: Illegal move\n";
-					return false;
-				}
-				else if ((xfinal == 0) && (ydirection == 2) && !(IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
-				{
-					cerr << "ERROR: Illegal move\n";
-					return false;
-				}
-			}
-			if (xinitial)
-		}
-
-
-	}
-
-	if ((CMCheckersBoard[yinitial][xinitial]) == (WHITESOLDIER || WHITEMULE || WHITEKING))//looking at red soldiers/mules/kings
-
-
-
-		//if x wraps around the left of the board
-		if (xinitial == 0)
-		{
-			if (xfinal == numRowsinBoard && ydistance)
-			{
-
-			}
-		}
-	//xdistance = ydistance
-	if (xdistance != ydistance)
-	{
-		cerr << "ERROR: Illegal move\n";
-		return false;
-	}
-
-	//if a jump move
-	if (ydistance == 2 && xdistance == 2)
-	{
-		return true;
-	}
-	//if a step move
-	if (ydistance == 1 && xdistance == 1)
-	{
-		return false;
-	}*/
-	
 }
-	
-bool CheckWin() //not sure which data type i should be using here, since it's returning true or false i THINK 
-                //this should be right...
+
+bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard) 
 {
- 	int redSOLDIERcount = 0;
+	int redSOLDIERcount = 0;
 	int redKINGcount = 0;
 	int redMULEcount = 0;
 	int whiteSOLDIERcount = 0;
 	int whiteKINGcount = 0;
 	int whiteMULEcount = 0;
- 	for (i = 0, i < numRowsInBoard, i++)
+
+	for (int i = 0; i < numRowsInBoard; i++)
 	{
-		for (j = 0, j < numRowsInBoard, j++)
+		for (int j = 0; j < numRowsInBoard; j++)
 		{
 			if (CMCheckersBoard[i][j] == REDSOLDIER)
 			{
-				redSOLDIERcount++
+				redSOLDIERcount++;
 			}
 			else if (CMCheckersBoard[i][j] == REDKING)
 			{
-				redKINGcount++
+				redKINGcount++;
 			}
 			else if (CMCheckersBoard[i][j] == REDMULE)
 			{
-				redMULEcount++
+				redMULEcount++;
 			}
 			else if (CMCheckersBoard[i][j] == WHITESOLDIER)
 			{
-				whiteSOLDIERcount++
+				whiteSOLDIERcount++;
 			}
 			else if (CMCheckersBoard[i][j] == WHITEKING)
 			{
-				whiteKINGcount++
+				whiteKINGcount++;
 			}
 			else if (CMCheckersBoard[i][j] == WHITEMULE)
 			{
-				whiteMULEcount++
+				whiteMULEcount++;
 			}
 		}
 	}
@@ -1265,7 +1145,8 @@ bool CheckWin() //not sure which data type i should be using here, since it's re
 		cout << "The Red Player has won by capturing all of the white players soldiers and kings";
 		return true;
 	}
-	else               //if none of the above 4 conditions are met...
+	else     //if none of the above 4 conditions are met...
+	{
 		return false;
- 	return;
+	}
 }
