@@ -610,4 +610,24 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE],	int numR
 		}
 	}
 }
+	
+
+//define MakeMove
+bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int fromSquareNum, int toSquareNum, bool &jumped)
+{
+	int xdistance = 0;
+	int ydistance = 0;
+	int xinitial = 0;
+	int yinitial = 0;
+	int xfinal = 0;
+	int yfinal = 0;
+
+	getCoordinate(numRowsInBoard, fromSquareNum, xinitial, yinitial);
+	getCoordinate(numRowsInBoard, toSquareNum, xfinal, yfinal);
+
+	xdistance = xfinal - xinitial;
+	ydistance = yfinal - yinitial;
+
+	if ()
+}
 
