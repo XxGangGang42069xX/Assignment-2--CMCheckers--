@@ -168,7 +168,7 @@ int main()
 			cout << "Red takes a turn.\n";
 		}
 		//prompt for which checker to move
-		while (1 == 1)
+		while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 		{
 			cout << "Enter the square number of the checker you want to move\n";
 			cin >> checkerMovedstr;
@@ -279,7 +279,6 @@ int main()
 			}
 			else if ((myCMCheckersBoard[yFinal][xFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)))
 			{
-				
 				cerr << "ERROR: You can jump with this checker, you must jump not move 1 space.\nTry again\n";
 				continue;
 			}
@@ -1222,6 +1221,7 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 				}
 			}
 		}
+		//second from the left
 		else if (xinitial == (1) && (xfinal == numRowsInBoard - 1) && (ydistance == 2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))//legal move ;; return true
 		{
 			if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE || CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
@@ -1256,6 +1256,7 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 				return true;
 			}
 		}
+		//extreme left
 		else if (xinitial == (0) && ((xdistance != 1) || (xdistance != 2)))
 		{
 			if ((xfinal == numRowsInBoard - 1) && (ydistance == 1))
@@ -1317,7 +1318,8 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 				}
 			}
 		}
-		else if ((ydistance == 2) && (xdistance == 2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))//normal situation
+		//normal situation
+		else if ((ydistance == 2) && (xdistance == 2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
 		{
 			if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE || CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
 			{
@@ -1369,7 +1371,8 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 				}
 			}
 		}
-		else if ((ydistance == 1) && (xdistance == 1))//another normie
+		//another normie
+		else if ((ydistance == 1) && (xdistance == 1))
 		{
 			if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE || CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
 			{
