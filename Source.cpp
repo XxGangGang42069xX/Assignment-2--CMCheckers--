@@ -210,7 +210,7 @@ int main()
 				else if ((CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) > 0) && !IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial))
 				{
 					//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-					cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " << x << y << endl;
+					cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " << /*x << y << */endl;
 					cerr << "Try again\n";
 					continue;
 				}
@@ -238,7 +238,7 @@ int main()
 				}
 				else if ((CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) > 0) && !IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial))
 				{
-					cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " << x << y << endl;
+					cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " <</* x << y <<*/ endl;
 					cerr << "Try again\n";
 					continue;
 				}
@@ -460,7 +460,6 @@ void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc)
 	xLoc = input - (yLoc * numRowsInBoard);
 }
 
-//define the function CountJumps
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
 {
 	//declare all local variables
@@ -514,7 +513,6 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsI
 	}
 }
 
-//define the function CountMove1Squares
 int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
 {
 	int i = 0;
@@ -577,8 +575,8 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 	{
 		if (CMCheckersBoard[yLoc][xLoc] == REDMULE || CMCheckersBoard[yLoc][xLoc] == REDSOLDIER || CMCheckersBoard[yLoc][xLoc] == REDKING)
 		{
-			
-			
+
+
 			if (xLoc == 0)//if on the extreme left
 			{
 				if (CMCheckersBoard[yLoc - 1][xLoc + (numRowsInBoard - 1)] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITEKING)
@@ -666,7 +664,7 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
 				{
-					if (CMCheckersBoard[yLoc - 2][xLoc -2] == EMPTY)
+					if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
 					{
 						return true;
 					}
@@ -726,7 +724,7 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 						}
 					}
 				}
-				else 
+				else
 				{
 					return false;
 				}
@@ -911,7 +909,6 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 	}
 }
 
-//define the function IsMove1Square
 bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc)
 {
 	if (player == REDPLAYER)//red player
@@ -1017,7 +1014,6 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numR
 	}
 }
 
-//define MakeMove
 bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int fromSquareNum, int toSquareNum, bool &jumped)
 {
 	int xdistance = 0;
