@@ -577,48 +577,196 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 	{
 		if (CMCheckersBoard[yLoc][xLoc] == REDMULE || CMCheckersBoard[yLoc][xLoc] == REDSOLDIER || CMCheckersBoard[yLoc][xLoc] == REDKING)
 		{
+			
+			
 			if (xLoc == 0)//if on the extreme left
 			{
-				if (CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc + (numRowsInBoard - 1)] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITEKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc - 2][xLoc + (numRowsInBoard - 2)] == EMPTY)
+					{
+						return true;
+					}
 				}
-				else if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][xLoc + (numRowsInBoard - 2)] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+			if (xLoc == 1)
+			{
+				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				{
+					if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				{
+					if (CMCheckersBoard[yLoc - 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				else
+				{
+					return false;
 				}
 			}
 			if (xLoc == (numRowsInBoard - 1))//if on the extreme right
 			{
-				if (CMCheckersBoard[yLoc + 1][xLoc - (numRowsInBoard - 1)] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][0] == WHITEMULE || WHITESOLDIER || WHITEKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc - 2][1] == EMPTY)
+					{
+						return true;
+					}
 				}
-				else if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc - 2][xLoc -2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 1][0] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][1] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				else
+				{
+					return false;
 				}
 			}
-			//check if front right/left are available to move to
-			if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
-			{
-				return true;
-			}
-			else if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
-			{
-				return true;
-			}
-
-			//check if back right/left are available to move if the checker is a king
-			if (CMCheckersBoard[yLoc][xLoc] == (REDKING))
+			else if (xLoc == (numRowsInBoard - 2))
 			{
 				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc - 2][0] == EMPTY)
+					{
+						return true;
+					}
 				}
-				else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][0] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				else 
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				{
+					if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				{
+					if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					{
+						if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				else
+				{
+					return false;
 				}
 			}
 		}
@@ -630,46 +778,133 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 		{
 			if (xLoc == 0)//if on the extreme left
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc + (numRowsInBoard - 1)] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == REDMULE || REDSOLDIER || REDKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc + 2][numRowsInBoard - 2] == EMPTY)
+					{
+						return true;
+					}
 				}
-				else if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
 				{
-					return true;
-				}
-			}
-			if (xLoc == (numRowsInBoard - 1))//if on the extreme right
-			{
-				if (CMCheckersBoard[yLoc - 1][xLoc - (numRowsInBoard - 1)] == REDMULE || REDSOLDIER || REDKING)
-				{
-					return true;
-				}
-				else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
-				{
-					return true;
+					if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
+					{
+						return true;
+					}
 				}
 			}
-			//check if front right/left are available to move to
-			if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+			else if (xLoc == 1)
 			{
-				return true;
-			}
-			else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
-			{
-				return true;
-			}
-
-			//check if back right/left are available to move
-			if (CMCheckersBoard[yLoc][xLoc] == (REDKING))
-			{
+				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
+					{
+						return true;
+					}
+				}
 				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc + 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
+					{
+						return true;
+					}
 				}
-				else if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
 				{
-					return true;
+					if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else if (xLoc == (numRowsInBoard - 1))//if on the extreme right
+			{
+				if (CMCheckersBoard[yLoc + 1][0] == REDMULE || REDSOLDIER || REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 2][1] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
+				{
+					if (CMCheckersBoard[yLoc - 1][0] == REDMULE || REDSOLDIER || REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][1] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
+				{
+					if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				else
+				{
+					return false;
 				}
 			}
 		}
@@ -1086,7 +1321,7 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 	}
 }
 
-bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard) 
+bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard)
 {
 	int redSOLDIERcount = 0;
 	int redKINGcount = 0;
