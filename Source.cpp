@@ -96,11 +96,6 @@ int main()
 
 	for (tries = 0; tries < MAXtries; tries++)
 	{
-		if (tries == 3)
-		{
-			cerr << "ERROR: Too many errors entering the size of the board.";
-			return 0;
-		}
 		cout << "Enter the number of squares along each edge of the board\n";
 		cin >> numRowsInBoardstr;
 		//check the input
@@ -110,10 +105,11 @@ int main()
 			if (!isdigit(numRowsInBoardstr.at(i)))
 			{
 				cerr << "ERROR: Board size is not an integer.\n8 <= number of squares <= 18\n";
-				continue;
+				goto lalala;
 			}
 		}
 		numRowsInBoard = stoi(numRowsInBoardstr);
+		
 		//check if it is even
 		if (numRowsInBoard % 2 != 0)
 		{
@@ -136,21 +132,19 @@ int main()
 			// it is an integer
 			break;
 		}
-		
+		lalala:;
 	}
+	if (tries == 3)
+	{
+		cerr << "ERROR: Too many errors entering the size of the board.";
+		return 0;
+	}
+
 	InitializeBoard(myCMCheckersBoard, numRowsInBoard);
 	DisplayBoard(myCMCheckersBoard, numRowsInBoard);
 	//at this point, the board is initialized and game is ready to be played
 
-	player++;
-	if (player % 2 != 0)
-	{
-		player = WHITEPLAYER;
-	}
-	else
-	{
-		player = REDPLAYER;
-	}
+	player = WHITEPLAYER;
 
 	while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 	{
@@ -215,7 +209,6 @@ int main()
 				}
 				else if ((CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) > 0) && !IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial))
 				{
-					cout << CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) << endl;
 					cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " << /*x << y << */endl;
 					cerr << "Try again\n";
 					continue;
@@ -227,7 +220,7 @@ int main()
 			}
 			else if (player == REDPLAYER)
 			{
-				if (myCMCheckersBoard[yInitial][xInitial] == WHITEKING || WHITEMULE || WHITESOLDIER)
+				if (myCMCheckersBoard[yInitial][xInitial] == WHITEKING || myCMCheckersBoard[yInitial][xInitial] == WHITEMULE || myCMCheckersBoard[yInitial][xInitial] == WHITESOLDIER)
 				{
 					cerr << "ERROR: That square contains an opponent's checker.\nTry again\n";
 					continue;
@@ -257,8 +250,10 @@ int main()
 		//prompt for the square the checker is moving to
 		while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 		{
-			cout << "Enter the square number of the square you want to move your checker to";
+			herebitch:
+			cout << "Enter the square number of the square you want to move your checker to\n";
 			cin >> checkerPlacedstr;
+			cout << endl;
 			for (int i = 0; i < checkerPlacedstr.size(); i++)
 			{
 				if (!isdigit(checkerPlacedstr.at(i)))
@@ -276,45 +271,49 @@ int main()
 
 			yFinal = getyCoordinate(numRowsInBoard, checkerPlaced);
 			xFinal = getxCoordinate(numRowsInBoard, checkerPlaced, yFinal);
+
 			if (myCMCheckersBoard[yFinal][xFinal] != EMPTY)//there is a checker there
 			{
-				cerr << "ERROR: It is not possible to move to a square that is already occupied.\nTry again";
+				cerr << "ERROR: It is not possible to move to a square that is already occupied.\nTry again\n";
 				continue;
 			}
 			else if ((myCMCheckersBoard[yFinal][xFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)))
 			{
-				cerr << "ERROR: You can jump with this checker, you must jump not move 1 space.\nTry again";
+				
+				cerr << "ERROR: You can jump with this checker, you must jump not move 1 space.\nTry again\n";
 				continue;
 			}
 			else
 			{
 				break;
 			}
-
-			MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthisfuckingchekcerjumpatall);
-			//determines if the move is legal
-			//if it returns *jump with true, you jumped niBBA, do it again if you can
-
-			if (!MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthisfuckingchekcerjumpatall))
-			{
-				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
-				continue;
-			}
-			else
-			{
-				if (didthisfuckingchekcerjumpatall)
-				{
-					DisplayBoard(myCMCheckersBoard, numRowsInBoard);
-					continue;
-				}
-			}
-
 		}
 
+		//determines if the move is legal
+		//if it returns *jump with true, you jumped niBBA, do it again if you can
+		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthisfuckingchekcerjumpatall);
 
+		if (!(diditmove))
+		{
+			goto herebitch;
+		}
+		else
+		{
+			if (didthisfuckingchekcerjumpatall)
+			{
+				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
+				if (player == WHITEPLAYER)
+				{
+					player = REDPLAYER;
+				}
+				else if (player == REDPLAYER)
+				{
+					player = WHITEPLAYER;
+				}
+				continue;
+			}
+		}
 	}
-
-
 }
 
 void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard)
@@ -542,62 +541,6 @@ int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsI
 	}
 }
 
-int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
-{
-	int i = 0;
-	int xindex = 0;
-	int yindex = 0;
-	int count = 0;
-
-
-	for (i = 0; i < MAX_PIECES; i++)
-	{
-		xLocArray[i] = -1;
-		yLocArray[i] = -1;
-	}
-
-
-	if (player == REDPLAYER)		//red player
-	{
-		for (yindex = 0; yindex < numRowsInBoard; yindex++)
-		{
-			for (xindex = 0; xindex < numRowsInBoard; xindex++)
-			{
-				if ((CMCheckersBoard[yindex][xindex]) == REDKING || (CMCheckersBoard[yindex][xindex]) == REDMULE || (CMCheckersBoard[yindex][xindex]) == REDSOLDIER)
-				{
-					if (IsMove1Square(CMCheckersBoard, numRowsInBoard, player, xindex, yindex) == true)
-					{
-						xLocArray[count] = xindex;
-						yLocArray[count] = yindex;
-						count++;
-					}
-				}
-			}
-		}
-		return count;
-	}
-	if (player == WHITEPLAYER)		//white player
-	{
-		for (yindex = 0; yindex < numRowsInBoard; yindex++)
-		{
-			for (xindex = 0; xindex < numRowsInBoard; xindex++)
-			{
-				if ((CMCheckersBoard[yindex][xindex]) == REDKING || (CMCheckersBoard[yindex][xindex]) == REDMULE || (CMCheckersBoard[yindex][xindex]) == REDSOLDIER)
-				{
-					if (IsMove1Square(CMCheckersBoard, numRowsInBoard, player, xindex, yindex) == true)
-					{
-						xLocArray[count] = xindex;
-						yLocArray[count] = yindex;
-						count++;
-					}
-				}
-			}
-		}
-		return count;
-	}
-
-}
-
 bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc)
 {
 	if (player == REDPLAYER)//red player
@@ -817,8 +760,27 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 						return true;
 					}
 				}
+				if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
+				{
+					if (CMCheckersBoard[yLoc - 1][numRowsInBoard - 1] == REDMULE || CMCheckersBoard[yLoc - 1][numRowsInBoard - 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][numRowsInBoard - 1] == REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][numRowsInBoard - 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc + 1] == REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
+						{
+							return true;
+						}
+					}
+				}
+				return false;
+
 			}
-			else if (xLoc == 1)
+			else if (xLoc == 1)// second spot from left
 			{
 				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDKING)
 				{
@@ -829,7 +791,7 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDKING)
 				{
-					if (CMCheckersBoard[yLoc + 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
+					if (CMCheckersBoard[yLoc + 2][numRowsInBoard - 1] == EMPTY)
 					{
 						return true;
 					}
@@ -845,16 +807,13 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 					}
 					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDKING)
 					{
-						if (CMCheckersBoard[yLoc - 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
+						if (CMCheckersBoard[yLoc - 2][numRowsInBoard - 1] == EMPTY)
 						{
 							return true;
 						}
 					}
 				}
-				else
-				{
-					return false;
-				}
+				return false;
 			}
 			else if (xLoc == (numRowsInBoard - 1))//if on the extreme right
 			{
@@ -889,12 +848,45 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 						}
 					}
 				}
-				else
+				return false;
+			}
+			else if (xLoc == (numRowsInBoard - 2))// second from the right
+			{
+				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDKING)
 				{
+					if (CMCheckersBoard[yLoc + 2][0] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDKING)
+				{
+					if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
+					{
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
+				{
+					if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc + 1] == REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][0] == EMPTY)
+						{
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDKING)
+					{
+						if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
+						{
+							return true;
+						}
+					}
 					return false;
+
 				}
 			}
-			else
+			else // normal situation
 			{
 				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDKING)
 				{
@@ -927,13 +919,68 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 						}
 					}
 				}
-				else
+				return false;
+
+			}
+		}
+		return false;
+	}
+}
+
+int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
+{
+	int i = 0;
+	int xindex = 0;
+	int yindex = 0;
+	int count = 0;
+
+
+	for (i = 0; i < MAX_PIECES; i++)
+	{
+		xLocArray[i] = -1;
+		yLocArray[i] = -1;
+	}
+
+
+	if (player == REDPLAYER)		//red player
+	{
+		for (yindex = 0; yindex < numRowsInBoard; yindex++)
+		{
+			for (xindex = 0; xindex < numRowsInBoard; xindex++)
+			{
+				if ((CMCheckersBoard[yindex][xindex]) == REDKING || (CMCheckersBoard[yindex][xindex]) == REDMULE || (CMCheckersBoard[yindex][xindex]) == REDSOLDIER)
 				{
-					return false;
+					if (IsMove1Square(CMCheckersBoard, numRowsInBoard, player, xindex, yindex) == true)
+					{
+						xLocArray[count] = xindex;
+						yLocArray[count] = yindex;
+						count++;
+					}
 				}
 			}
 		}
+		return count;
 	}
+	if (player == WHITEPLAYER)		//white player
+	{
+		for (yindex = 0; yindex < numRowsInBoard; yindex++)
+		{
+			for (xindex = 0; xindex < numRowsInBoard; xindex++)
+			{
+				if ((CMCheckersBoard[yindex][xindex]) == REDKING || (CMCheckersBoard[yindex][xindex]) == REDMULE || (CMCheckersBoard[yindex][xindex]) == REDSOLDIER)
+				{
+					if (IsMove1Square(CMCheckersBoard, numRowsInBoard, player, xindex, yindex) == true)
+					{
+						xLocArray[count] = xindex;
+						yLocArray[count] = yindex;
+						count++;
+					}
+				}
+			}
+		}
+		return count;
+	}
+
 }
 
 bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc)
@@ -965,27 +1012,27 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numR
 				}
 			}
 			//check if front right/left are available to move to
-			if (CMCheckersBoard[yLoc + 1][xLoc + 1] == EMPTY)
+			if (CMCheckersBoard[yLoc - 1][xLoc + 1] == EMPTY)
 			{
 				return true;
 			}
-			else if (CMCheckersBoard[yLoc + 1][xLoc - 1] == EMPTY)
+			else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == EMPTY)
 			{
 				return true;
 			}
-
 			//check if back right/left are available to move if the checker is a king
 			if (CMCheckersBoard[yLoc][xLoc] == (REDKING))
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == EMPTY)
+				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == EMPTY)
 				{
 					return true;
 				}
-				else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == EMPTY)
+				else if (CMCheckersBoard[yLoc + 1][xLoc - 1] == EMPTY)
 				{
 					return true;
 				}
 			}
+			return false;
 		}
 	}
 
@@ -1016,27 +1063,27 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numR
 				}
 			}
 			//check if front right/left are available to move to
-			if (CMCheckersBoard[yLoc - 1][xLoc + 1] == EMPTY)
+			if (CMCheckersBoard[yLoc + 1][xLoc + 1] == EMPTY)
 			{
 				return true;
 			}
-			else if (CMCheckersBoard[yLoc - 1][xLoc - 1] == EMPTY)
+			else if (CMCheckersBoard[yLoc + 1][xLoc - 1] == EMPTY)
 			{
 				return true;
 			}
-
 			//check if back right/left are available to move
-			if (CMCheckersBoard[yLoc][xLoc] == (REDKING))
+			if (CMCheckersBoard[yLoc][xLoc] == (WHITEKING))
 			{
-				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == EMPTY)
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == EMPTY)
 				{
 					return true;
 				}
-				else if (CMCheckersBoard[yLoc + 1][xLoc + 1] == EMPTY)
+				else if (CMCheckersBoard[yLoc - 1][xLoc + 1] == EMPTY)
 				{
 					return true;
 				}
 			}
+			return false;
 		}
 	}
 }
