@@ -988,13 +988,15 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int n
 //define Checklist
 bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex)
 {
-	for(i = 0, i < sizeof(inArray1), i++)
+	for(i = 0, i < sizeof(inArray1), i++) 
 	{
-		if (inArray1[i] == xIndex)
+		if (inArray1[i] == xIndex) //If the value from the array is equal to the value in the 
+			                   //index for x, it will send it to check the second array. 
 		{
-			for (j = 0, j < sizeof(inArray2), j++)
+			for (j = 0, j < sizeof(inArray2), j++) 
 			{
-				if (inArray2[j] == yIndex)
+				if (inArray2[j] == yIndex) //if the value from this array is equal to the one
+					                   //in the y index, the piece exists.
 				{
 					return true;
 				}
@@ -1002,7 +1004,7 @@ bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex)
 		}
 		else
 		{
-			return false;
+			return false; //if the array values do not match the ones in the index, it will return false. 
 		}
 	}
 } 
