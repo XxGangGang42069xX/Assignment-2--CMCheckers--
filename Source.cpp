@@ -94,6 +94,11 @@ int main()
 
 	for (tries = 0; tries < MAXtries; tries++)
 	{
+		if (tries == 3)
+		{
+			cerr << "ERROR: Too many errors entering the size of the board.";
+			return 0;
+		}
 		cout << "Enter the number of squares along each edge of the board\n";
 		cin >> numRowsInBoardstr;
 		//check the input
@@ -129,11 +134,6 @@ int main()
 			// it is an integer
 			break;
 		}
-	}
-	if (tries == 3)
-	{
-		cerr << "ERROR: Too many errors entering the size of the board.";
-		return 0;
 	}
 	InitializeBoard(myCMCheckersBoard, numRowsInBoard);
 	DisplayBoard(myCMCheckersBoard, numRowsInBoard);
