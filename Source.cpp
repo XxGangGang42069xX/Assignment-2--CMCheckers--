@@ -80,6 +80,7 @@ int main()
 	int yInitial;
 	int xFinal;
 	int yFinal;
+	bool didthisfuckingchekcerjumpatall;
 
 	numRowsInBoard = 0;
 	MAXtries = 3;
@@ -148,7 +149,7 @@ int main()
 		player = REDPLAYER;
 	}
 
-	while (!CheckWin)
+	while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 	{
 		if (CountMove1Squares(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) == 0 && CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) == 0)
 		{
@@ -192,7 +193,7 @@ int main()
 			getCoordinate(numRowsInBoard, checkerMoved, xInitial, yInitial);
 			if (player == WHITEPLAYER)
 			{
-				if (myCMCheckersBoard[yInitial][xInitial] == REDKING || REDMULE || REDSOLDIER)
+				if (myCMCheckersBoard[yInitial][xInitial] == REDKING || myCMCheckersBoard[yInitial][xInitial] == REDMULE || myCMCheckersBoard[yInitial][xInitial] == REDSOLDIER)
 				{
 					cerr << "ERROR: That square contains an opponent's checker.\nTry again\n";
 					continue;
@@ -249,7 +250,7 @@ int main()
 			}
 		}
 		//prompt for the square the checker is moving to
-		while ("my ass" == "my ass")
+		while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 		{
 			cout << "Enter the square number of the square you want to move your checker to";
 			cin >> checkerPlacedstr;
@@ -283,8 +284,23 @@ int main()
 				break;
 			}
 
-			MakeMove;//determines if the move is legal
+			MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthisfuckingchekcerjumpatall);
+			//determines if the move is legal
 			//if it returns *jump with true, you jumped niBBA, do it again if you can
+
+			if (!MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthisfuckingchekcerjumpatall))
+			{
+				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
+				continue;
+			}
+			else
+			{
+				if (didthisfuckingchekcerjumpatall)
+				{
+					DisplayBoard(myCMCheckersBoard, numRowsInBoard);
+					continue;
+				}
+			}
 
 		}
 
