@@ -50,7 +50,9 @@ bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numR
 
 bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc);
 
-void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc);
+int getyCoordinate(int numRowsInBoard, int input);
+
+int getxCoordinate(int numRowsInBoard, int input, int yLoc);
 
 bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int fromSquareNum, int toSquareNum, bool &jumped);
 
@@ -134,6 +136,7 @@ int main()
 			// it is an integer
 			break;
 		}
+		
 	}
 	InitializeBoard(myCMCheckersBoard, numRowsInBoard);
 	DisplayBoard(myCMCheckersBoard, numRowsInBoard);
@@ -190,7 +193,9 @@ int main()
 				cerr << "ERROR: That square is not on the board.\nTry again\n";
 				continue;
 			}
-			getCoordinate(numRowsInBoard, checkerMoved, xInitial, yInitial);
+			yInitial = getyCoordinate(numRowsInBoard, checkerMoved);
+			xInitial = getxCoordinate(numRowsInBoard, checkerMoved, yInitial);
+
 			if (player == WHITEPLAYER)
 			{
 				if (myCMCheckersBoard[yInitial][xInitial] == REDKING || myCMCheckersBoard[yInitial][xInitial] == REDMULE || myCMCheckersBoard[yInitial][xInitial] == REDSOLDIER)
@@ -210,7 +215,7 @@ int main()
 				}
 				else if ((CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) > 0) && !IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial))
 				{
-					//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+					cout << CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) << endl;
 					cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " << /*x << y << */endl;
 					cerr << "Try again\n";
 					continue;
@@ -268,13 +273,15 @@ int main()
 				cerr << "ERROR: That square is not on the board.\nTry again\n";
 				continue;
 			}
-			getCoordinate(numRowsInBoard, checkerPlaced, xFinal, yFinal);
-			if (myCMCheckersBoard[xFinal][yFinal] != EMPTY)//there is a checker there
+
+			yFinal = getyCoordinate(numRowsInBoard, checkerPlaced);
+			xFinal = getxCoordinate(numRowsInBoard, checkerPlaced, yFinal);
+			if (myCMCheckersBoard[yFinal][xFinal] != EMPTY)//there is a checker there
 			{
 				cerr << "ERROR: It is not possible to move to a square that is already occupied.\nTry again";
 				continue;
 			}
-			else if ((myCMCheckersBoard[xFinal][yFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)))
+			else if ((myCMCheckersBoard[yFinal][xFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)))
 			{
 				cerr << "ERROR: You can jump with this checker, you must jump not move 1 space.\nTry again";
 				continue;
@@ -468,12 +475,18 @@ void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRo
 	cout << endl << endl << endl;
 }
 
-void getCoordinate(int numRowsInBoard, int input, int xLoc, int yLoc)
+int getyCoordinate(int numRowsInBoard, int input)
 {
-	yLoc = 0;
-	xLoc = 0;
+	int yLoc = 0;
 	yLoc = input / numRowsInBoard;
+	return yLoc;
+}
+
+int getxCoordinate(int numRowsInBoard, int input, int yLoc)
+{
+	int xLoc = 0;
 	xLoc = input - (yLoc * numRowsInBoard);
+	return xLoc;
 }
 
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
@@ -591,8 +604,6 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 	{
 		if (CMCheckersBoard[yLoc][xLoc] == REDMULE || CMCheckersBoard[yLoc][xLoc] == REDSOLDIER || CMCheckersBoard[yLoc][xLoc] == REDKING)
 		{
-
-
 			if (xLoc == 0)//if on the extreme left
 			{
 				if (CMCheckersBoard[yLoc - 1][xLoc + (numRowsInBoard - 1)] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc + (numRowsInBoard - 1)] == WHITEKING)
@@ -602,7 +613,7 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
 					{
@@ -618,7 +629,7 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 							return true;
 						}
 					}
-					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
 						{
@@ -633,14 +644,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 			}
 			if (xLoc == 1)
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
 					{
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
 					{
@@ -649,14 +660,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
 				{
-					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
 						{
 							return true;
 						}
 					}
-					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
 						{
@@ -671,14 +682,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 			}
 			if (xLoc == (numRowsInBoard - 1))//if on the extreme right
 			{
-				if (CMCheckersBoard[yLoc - 1][0] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][0] == WHITEMULE || CMCheckersBoard[yLoc - 1][0] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][0] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][1] == EMPTY)
 					{
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
 					{
@@ -687,14 +698,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
 				{
-					if (CMCheckersBoard[yLoc + 1][0] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][0] == WHITEMULE || CMCheckersBoard[yLoc + 1][0] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][0] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][1] == EMPTY)
 						{
 							return true;
 						}
 					}
-					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
 						{
@@ -709,14 +720,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 			}
 			else if (xLoc == (numRowsInBoard - 2))
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][0] == EMPTY)
 					{
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
 					{
@@ -725,14 +736,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
 				{
-					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][0] == EMPTY)
 						{
 							return true;
 						}
 					}
-					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
 						{
@@ -747,14 +758,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 			}
 			else
 			{
-				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEMULE || CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][xLoc + 1] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
 					{
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+				if (CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITESOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == WHITEKING)
 				{
 					if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
 					{
@@ -763,14 +774,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc][xLoc] == REDKING)
 				{
-					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
 						{
 							return true;
 						}
 					}
-					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || WHITESOLDIER || WHITEKING)
+					if (CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == WHITEKING)
 					{
 						if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
 						{
@@ -792,14 +803,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 		{
 			if (xLoc == 0)//if on the extreme left
 			{
-				if (CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == REDMULE || CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == REDKING)
 				{
 					if (CMCheckersBoard[yLoc + 2][numRowsInBoard - 2] == EMPTY)
 					{
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDKING)
 				{
 					if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
 					{
@@ -809,14 +820,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 			}
 			else if (xLoc == 1)
 			{
-				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDKING)
 				{
 					if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
 					{
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDKING)
 				{
 					if (CMCheckersBoard[yLoc + 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
 					{
@@ -825,14 +836,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
 				{
-					if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+					if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc + 1] == REDKING)
 					{
 						if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
 						{
 							return true;
 						}
 					}
-					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDKING)
 					{
 						if (CMCheckersBoard[yLoc - 2][xLoc + (numRowsInBoard - 1)] == EMPTY)
 						{
@@ -847,14 +858,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 			}
 			else if (xLoc == (numRowsInBoard - 1))//if on the extreme right
 			{
-				if (CMCheckersBoard[yLoc + 1][0] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][0] == REDMULE || CMCheckersBoard[yLoc + 1][0] == REDSOLDIER || CMCheckersBoard[yLoc + 1][0] == REDKING)
 				{
 					if (CMCheckersBoard[yLoc + 2][1] == EMPTY)
 					{
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDKING)
 				{
 					if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
 					{
@@ -863,14 +874,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
 				{
-					if (CMCheckersBoard[yLoc - 1][0] == REDMULE || REDSOLDIER || REDKING)
+					if (CMCheckersBoard[yLoc - 1][0] == REDMULE || CMCheckersBoard[yLoc - 1][0] == REDSOLDIER || CMCheckersBoard[yLoc - 1][0] == REDKING)
 					{
 						if (CMCheckersBoard[yLoc - 2][1] == EMPTY)
 						{
 							return true;
 						}
 					}
-					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDKING)
 					{
 						if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
 						{
@@ -885,14 +896,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 			}
 			else
 			{
-				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc + 1] == REDKING)
 				{
 					if (CMCheckersBoard[yLoc + 2][xLoc + 2] == EMPTY)
 					{
 						return true;
 					}
 				}
-				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+				if (CMCheckersBoard[yLoc + 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][xLoc - 1] == REDKING)
 				{
 					if (CMCheckersBoard[yLoc + 2][xLoc - 2] == EMPTY)
 					{
@@ -901,14 +912,14 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 				}
 				if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
 				{
-					if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || REDSOLDIER || REDKING)
+					if (CMCheckersBoard[yLoc - 1][xLoc + 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc + 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc + 1] == REDKING)
 					{
 						if (CMCheckersBoard[yLoc - 2][xLoc + 2] == EMPTY)
 						{
 							return true;
 						}
 					}
-					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || REDSOLDIER || REDKING)
+					if (CMCheckersBoard[yLoc - 1][xLoc - 1] == REDMULE || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDSOLDIER || CMCheckersBoard[yLoc - 1][xLoc - 1] == REDKING)
 					{
 						if (CMCheckersBoard[yLoc - 2][xLoc - 2] == EMPTY)
 						{
@@ -1041,8 +1052,13 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 	int xfinal = 0;
 	int yfinal = 0;
 
-	getCoordinate(numRowsInBoard, fromSquareNum, xinitial, yinitial);
-	getCoordinate(numRowsInBoard, toSquareNum, xfinal, yfinal);
+	yinitial = getyCoordinate(numRowsInBoard, fromSquareNum);
+	xinitial = getxCoordinate(numRowsInBoard, fromSquareNum, yinitial);
+	yfinal = getyCoordinate(numRowsInBoard, toSquareNum);
+	xfinal = getxCoordinate(numRowsInBoard, toSquareNum, yfinal);
+
+	//getCoordinate(numRowsInBoard, fromSquareNum, xinitial, yinitial);
+	//getCoordinate(numRowsInBoard, toSquareNum, xfinal, yfinal);
 
 	xdistance = abs(xfinal - xinitial);//distance of x
 	ydistance = abs(yfinal - yinitial);//distance of y
