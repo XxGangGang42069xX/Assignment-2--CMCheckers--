@@ -7,7 +7,6 @@ Authors: Nicholas Hung, Eli Planas, Mark Cheng
 #include <cmath>
 #include <string>
 #include <iomanip>
-#include <algorithm> //in order to use the "sizeof()" function
 
 using namespace std;
 
@@ -38,14 +37,12 @@ const string REDMULESTR = "RM";
 const string REDKINGSTR = "RK";
 const string EMPTYSTR = "0";
 
-//declaring function prototypes
+//function prototypes
 void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
 void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
-
-bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex);
 
 int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
 
@@ -984,31 +981,6 @@ int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int n
 	}
 
 }
-
-//define Checklist
-bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex)
-{
-	for(i = 0, i < sizeof(inArray1), i++) 
-	{
-		if (inArray1[i] == xIndex) //If the value from the array is equal to the value in the 
-			                   //index for x, it will send it to check the second array. 
-		{
-			for (j = 0, j < sizeof(inArray2), j++) 
-			{
-				if (inArray2[j] == yIndex) //if the value from this array is equal to the one
-					                   //in the y index, the piece exists.
-				{
-					return true;
-				}
-			}
-		}
-		else
-		{
-			return false; //if the array values do not match the ones in the index, it will return false. 
-		}
-	}
-} 
-
 
 bool IsMove1Square(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLoc, int yLoc)
 {
