@@ -89,9 +89,10 @@ int main()
 	int yFinal;
 	int countjumps;
 	int countmoves;
-	bool didthischeckerjump;
+	bool didthischekcerjump;
 	bool diditjump;
 	string endgame;
+
 
 	numRowsInBoard = 0;
 	MAXtries = 3;
@@ -241,7 +242,21 @@ int main()
 				}
 				else if ((CountJumps(myCMCheckersBoard, numRowsInBoard, player, xLocArray, yLocArray) > 0) && !IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial))
 				{
-					cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: " << /*x << y << */endl;
+					cerr << "ERROR: You can jump with another checker, you may not move your chosen checker.\nYou can jump using checkers on the following squares: ";
+					int jumpspots = 0;
+					for (int e = 0; e < numRowsInBoard; e++)
+					{
+						for (int p = 0; p < numRowsInBoard; p++)
+						{
+							if (IsJump(myCMCheckersBoard, numRowsInBoard, player, p, e))
+							{
+								jumpspots++;
+								cout << jumpspots << " ";
+							}
+
+						}
+					}
+					cout << endl;
 					cerr << "Try again\n";
 					continue;
 				}
@@ -324,7 +339,7 @@ int main()
 		//determines if the move is legal
 		//if it returns *jump with true, you jumped niBBA, do it again if you can
 		bool diditjump = IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial);
-		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthischeckerjump);
+		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthischekcerjump);
 
 		if (!(diditmove))
 		{
@@ -332,7 +347,7 @@ int main()
 		}
 		else
 		{
-			if (didthischeckerjump)
+			if (didthischekcerjump)
 			{
 				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
 				if (diditjump)
