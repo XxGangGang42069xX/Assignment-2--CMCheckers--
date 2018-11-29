@@ -1,16 +1,7 @@
-/*
-Authors: Nicholas Hung, Eli Planas, Mark Cheng
-Date Completed: November 28th, 2018
-
-Summary: The purpose of this code is to simulate a game of "Cylindrical Mule Checkers" using the 
-         premade prototypes. This game is made of two players (one for red and the other for white).
-*/
-
 #include <iostream>
 #include <cmath>
 #include <string>
 #include <iomanip>
-#include <algorithm> //allows usage of "sizeof()" function.
 
 using namespace std;
 
@@ -46,8 +37,6 @@ void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int nu
 
 void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
-bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex);
-
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
 
 int CountMove1Squares(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
@@ -66,7 +55,6 @@ bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 
 int main()
 {
-	//initializing local variables. 
 	int myCMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE] = {};
 	int xIndicesMove[MAX_PIECES] = {};
 	int yIndicesMove[MAX_PIECES] = {};
@@ -90,6 +78,7 @@ int main()
 	int xFinal;
 	int yFinal;
 	bool didthischekcerjump;
+	bool diditjump;
 
 	numRowsInBoard = 0;
 	MAXtries = 3;
@@ -177,6 +166,7 @@ int main()
 		//prompt for which checker to move
 		while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 		{
+			redo:
 			cout << "Enter the square number of the checker you want to move\n";
 			cin >> checkerMovedstr;
 			//check the input if it is valid :: it is an int, it is the player's checker, it is in the board
@@ -185,7 +175,7 @@ int main()
 				if (!isdigit(checkerMovedstr.at(i)))
 				{
 					cerr << "ERROR: You did not enter an integer\nTry again\n";
-					continue;
+					goto redo;
 				}
 			}
 			checkerMoved = stoi(checkerMovedstr);
@@ -257,8 +247,9 @@ int main()
 		//prompt for the square the checker is moving to
 		while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 		{
-			righthere:
+		righthere:
 			cout << "Enter the square number of the square you want to move your checker to\n";
+			jumparound:
 			cin >> checkerPlacedstr;
 			cout << endl;
 			for (int i = 0; i < checkerPlacedstr.size(); i++)
@@ -275,7 +266,7 @@ int main()
 				cerr << "ERROR: That square is not on the board.\nTry again\n";
 				continue;
 			}
-			
+
 			yFinal = getyCoordinate(numRowsInBoard, checkerPlaced);
 			xFinal = getxCoordinate(numRowsInBoard, checkerPlaced, yFinal);
 
@@ -283,8 +274,8 @@ int main()
 			{
 				cerr << "ERROR: It is not possible to move to a square that is already occupied.\nTry again\n";
 				continue;
-			}
-			else if ((myCMCheckersBoard[yFinal][xFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)))
+			}		
+			else if ((myCMCheckersBoard[yFinal][xFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)) && (abs(yFinal - yInitial) == 1))
 			{																																				
 				cerr << "ERROR: You can jump with this checker, you must jump not move 1 space.\nTry again\n";
 				continue;
@@ -297,6 +288,7 @@ int main()
 
 		//determines if the move is legal
 		//if it returns *jump with true, you jumped niBBA, do it again if you can
+		bool diditjump = IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial);
 		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthischekcerjump);
 
 		if (!(diditmove))
@@ -308,6 +300,18 @@ int main()
 			if (didthischekcerjump)
 			{
 				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
+				if (diditjump)
+				{
+					if (IsJump(myCMCheckersBoard, numRowsInBoard, player, xFinal, yFinal))
+					{
+						cout << "You can jump again, Please enter the next square you wish to move your checker to\n";
+						checkerMoved = checkerPlaced;
+						goto jumparound;
+					}
+				}
+
+
+
 				if (player == WHITEPLAYER)
 				{
 					player = REDPLAYER;
@@ -494,27 +498,6 @@ int getxCoordinate(int numRowsInBoard, int input, int yLoc)
 	return xLoc;
 }
 
-bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex)
-{
-	for(i = 0, i < sizeof(inArray1), i++)
-	{
-		if (inArray1[i] == xIndex)
-		{
-			for (j = 0, j < sizeof(inArray2), j++)
-			{
-				if (inArray2[j] == yIndex)
-				{
-					return true;
-				}
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-} 
-
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
 {
 	//declare all local variables
@@ -574,6 +557,17 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 	{
 		if (CMCheckersBoard[yLoc][xLoc] == REDMULE || CMCheckersBoard[yLoc][xLoc] == REDSOLDIER || CMCheckersBoard[yLoc][xLoc] == REDKING)
 		{
+			if (yLoc == 1)
+			{
+				return false;
+			}
+			if (CMCheckersBoard[yLoc][xLoc] == REDKING)
+			{
+				if (yLoc == (numRowsInBoard - 2))
+				{
+					return false;
+				}
+			}
 			if (xLoc == 0)//if on the extreme left
 			{
 				if (CMCheckersBoard[yLoc - 1][numRowsInBoard - 1] == WHITEMULE || CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == WHITESOLDIER || CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == WHITEKING)
@@ -771,6 +765,17 @@ bool IsJump(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBo
 	{
 		if (CMCheckersBoard[yLoc][xLoc] == WHITEMULE || CMCheckersBoard[yLoc][xLoc] == WHITESOLDIER || CMCheckersBoard[yLoc][xLoc] == WHITEKING)
 		{
+			if (yLoc == (numRowsInBoard - 2))
+			{
+				return false;
+			}
+			if (CMCheckersBoard[yLoc][xLoc] == WHITEKING)
+			{
+				if (yLoc == 2)
+				{
+					return false;
+				}
+			}
 			if (xLoc == 0)//if on the extreme left
 			{
 				if (CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == REDMULE || CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == REDSOLDIER || CMCheckersBoard[yLoc + 1][numRowsInBoard - 1] == REDKING)
@@ -1125,6 +1130,7 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 	int yinitial = 0;
 	int xfinal = 0;
 	int yfinal = 0;
+	string endgame;
 
 	yinitial = getyCoordinate(numRowsInBoard, fromSquareNum);
 	xinitial = getxCoordinate(numRowsInBoard, fromSquareNum, yinitial);
@@ -1164,16 +1170,46 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 					return false;
 				}
 			}
-			if (ydirection < 0)
+			if (ydirection < 0)//red something
 			{
 				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 				CMCheckersBoard[yinitial - 1][xinitial + 1] = EMPTY;
+				if (yfinal == 0)
+				{
+					if (CMCheckersBoard[yinitial][xinitial] == REDMULE)
+					{
+						cout << "Red has created a Mule King, White wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+					if (CMCheckersBoard[yinitial][xinitial] == REDSOLDIER)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+					}
+				}
 				return true;
 			}
-			if (ydirection > 0)
+			if (ydirection > 0)//white something
 			{
 				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 				CMCheckersBoard[yinitial + 1][xinitial + 1] = EMPTY;
+				if (yfinal == (numRowsInBoard - 1))
+				{
+					if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE)
+					{
+						cout << "White has created a Mule King, Red wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+					if (CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+					}
+				}
 				return true;
 			}
 			/*if ((xfinal == 0) && (ydirection == -2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
@@ -1429,6 +1465,8 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 		{
 			return false;
 		}
+
+
 	}
 }
 
