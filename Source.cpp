@@ -321,9 +321,6 @@ int main()
 						goto jumparound;
 					}
 				}
-
-
-
 				if (player == WHITEPLAYER)
 				{
 					player = REDPLAYER;
@@ -1979,11 +1976,11 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 
 bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex)
 {
-	for (i = 0, i < sizeof(inArray1), i++)
+	for (int i = 0; i < sizeof(inArray1); i++)
 	{
 		if (inArray1[i] == xIndex)
 		{
-			for (j = 0, j < sizeof(inArray2), j++)
+			for (int j = 0; j < sizeof(inArray2); j++)
 			{
 				if (inArray2[j] == yIndex)
 				{
