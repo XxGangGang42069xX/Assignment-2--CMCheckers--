@@ -1,11 +1,11 @@
 /*
-
 Authors: Nicholas Hung, Eli Planas, Mark Cheng
 Date Completed: November 28th, 2018
 
 Summary: The purpose of this code is to simulate a game of "Cylindrical Mule Checkers" using the 
          premade prototypes. This game is made of two players (one for red and the other for white).
 */
+
 #include <iostream>
 #include <cmath>
 #include <string>
@@ -66,6 +66,7 @@ bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 
 int main()
 {
+	//initializing local variables. 
 	int myCMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE] = {};
 	int xIndicesMove[MAX_PIECES] = {};
 	int yIndicesMove[MAX_PIECES] = {};
