@@ -82,7 +82,7 @@ int main()
 	int yInitial;
 	int xFinal;
 	int yFinal;
-	bool didthisfuckingchekcerjumpatall;
+	bool didthischekcerjump;
 
 	numRowsInBoard = 0;
 	MAXtries = 3;
@@ -250,7 +250,7 @@ int main()
 		//prompt for the square the checker is moving to
 		while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 		{
-			herebitch:
+			righthere:
 			cout << "Enter the square number of the square you want to move your checker to\n";
 			cin >> checkerPlacedstr;
 			cout << endl;
@@ -268,7 +268,7 @@ int main()
 				cerr << "ERROR: That square is not on the board.\nTry again\n";
 				continue;
 			}
-
+			
 			yFinal = getyCoordinate(numRowsInBoard, checkerPlaced);
 			xFinal = getxCoordinate(numRowsInBoard, checkerPlaced, yFinal);
 
@@ -278,7 +278,7 @@ int main()
 				continue;
 			}
 			else if ((myCMCheckersBoard[yFinal][xFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)))
-			{
+			{																																				
 				cerr << "ERROR: You can jump with this checker, you must jump not move 1 space.\nTry again\n";
 				continue;
 			}
@@ -290,15 +290,15 @@ int main()
 
 		//determines if the move is legal
 		//if it returns *jump with true, you jumped niBBA, do it again if you can
-		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthisfuckingchekcerjumpatall);
+		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthischekcerjump);
 
 		if (!(diditmove))
 		{
-			goto herebitch;
+			goto righthere;
 		}
 		else
 		{
-			if (didthisfuckingchekcerjumpatall)
+			if (didthischekcerjump)
 			{
 				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
 				if (player == WHITEPLAYER)
@@ -1160,7 +1160,7 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 			}*/
 		}
 		//if x initial is on the very far right
-		else if (xinitial == (numRowsInBoard - 1) && ((xdistance != 1) || (xdistance != 2)))
+		else if (xinitial == (numRowsInBoard - 1) && ((xdistance != 1) && (xdistance != 2)))
 		{
 			if ((xfinal == 0) && (ydistance == 1))
 			{
@@ -1257,7 +1257,7 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 			}
 		}
 		//extreme left
-		else if (xinitial == (0) && ((xdistance != 1) || (xdistance != 2)))
+		else if (xinitial == (0) && ((xdistance != 1) && (xdistance != 2)))
 		{
 			if ((xfinal == numRowsInBoard - 1) && (ydistance == 1))
 			{
@@ -1374,6 +1374,7 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 		//another normie
 		else if ((ydistance == 1) && (xdistance == 1))
 		{
+			//white s and white m
 			if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE || CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
 			{
 				if (ydirection < 0)
@@ -1395,6 +1396,10 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 			}
 			swap(CMCheckersBoard[yinitial][xinitial], CMCheckersBoard[yfinal][xfinal]);
 			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 }
