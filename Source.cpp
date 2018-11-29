@@ -1,7 +1,6 @@
 /*
 Authors: Nicholas Hung, Eli Planas, Mark Cheng
 Date Completed: November 28th, 2018
-
 Summary: The purpose of this code is to simulate a game of "Cylindrical Mule Checkers" using the
 		 premade prototypes. This game is made of two players (one for red and the other for white).
 */
@@ -15,7 +14,7 @@ Summary: The purpose of this code is to simulate a game of "Cylindrical Mule Che
 
 using namespace std;
 
-//Globalized variable constants
+//Global variables
 const int MAX_ARRAY_SIZE = 18;
 const int MIN_ARRAY_SIZE = 8;
 const int MAX_PIECES = 72;
@@ -33,7 +32,7 @@ const int WHITEPLAYER = 1;
 const int REDPLAYER = 2;
 const int EMPTY = 0;
 
-//Variables for displaying the pieces on the board.
+//for displaying the pieces
 const string WHITESOLDIERSTR = "WS";
 const string WHITEMULESTR = "WM";
 const string WHITEKINGSTR = "WK";
@@ -46,8 +45,6 @@ const string EMPTYSTR = "0";
 void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
 void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
-
-bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex);
 
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
 
@@ -62,6 +59,8 @@ int getyCoordinate(int numRowsInBoard, int input);
 int getxCoordinate(int numRowsInBoard, int input, int yLoc);
 
 bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int fromSquareNum, int toSquareNum, bool &jumped);
+
+bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex);
 
 bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
@@ -90,8 +89,8 @@ int main()
 	int yInitial;
 	int xFinal;
 	int yFinal;
-	bool did_this_checker_jump;
-	bool did_it_jump;
+	bool didthischekcerjump;
+	bool diditjump;
 
 	numRowsInBoard = 0;
 	MAXtries = 3;
@@ -200,7 +199,7 @@ int main()
 			yInitial = getyCoordinate(numRowsInBoard, checkerMoved);
 			xInitial = getxCoordinate(numRowsInBoard, checkerMoved, yInitial);
 
-			if (player == WHITEPLAYER) //Checking conditions for white player (including moves, board, and jumps)
+			if (player == WHITEPLAYER)
 			{
 				if (myCMCheckersBoard[yInitial][xInitial] == REDKING || myCMCheckersBoard[yInitial][xInitial] == REDMULE || myCMCheckersBoard[yInitial][xInitial] == REDSOLDIER)
 				{
@@ -260,7 +259,7 @@ int main()
 		//prompt for the square the checker is moving to
 		while (!CheckWin(myCMCheckersBoard, numRowsInBoard))
 		{
-		righthere:
+			righthere:
 			cout << "Enter the square number of the square you want to move your checker to\n";
 			jumparound:
 			cin >> checkerPlacedstr;
@@ -289,7 +288,7 @@ int main()
 				continue;
 			}		
 			else if ((myCMCheckersBoard[yFinal][xFinal] == EMPTY) && (IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial)) && (abs(yFinal - yInitial) == 1))
-			{																																				
+			{							
 				cerr << "ERROR: You can jump with this checker, you must jump not move 1 space.\nTry again\n";
 				continue;
 			}
@@ -301,8 +300,8 @@ int main()
 
 		//determines if the move is legal
 		//if it returns *jump with true, you jumped niBBA, do it again if you can
-		bool did_it_jump = IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial);
-		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, did_this_checker_jump);
+		bool diditjump = IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial);
+		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthischekcerjump);
 
 		if (!(diditmove))
 		{
@@ -310,10 +309,10 @@ int main()
 		}
 		else
 		{
-			if (did_this_checker_jump)
+			if (didthischekcerjump)
 			{
 				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
-				if (did_it_jump)
+				if (diditjump)
 				{
 					if (IsJump(myCMCheckersBoard, numRowsInBoard, player, xFinal, yFinal))
 					{
@@ -509,27 +508,6 @@ int getxCoordinate(int numRowsInBoard, int input, int yLoc)
 	int xLoc = 0;
 	xLoc = input - (yLoc * numRowsInBoard);
 	return xLoc;
-}
-
-bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex)
-{
-	for (i = 0, i < sizeof(inArray1), i++)
-	{
-		if (inArray1[i] == xIndex)
-		{
-			for (j = 0, j < sizeof(inArray2), j++)
-			{
-				if (inArray2[j] == yIndex)
-				{
-					return true;
-				}
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
 }
 
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
@@ -1194,6 +1172,7 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 					return false;
 				}
 			}
+
 			//red soldiers and red mules
 			if (CMCheckersBoard[yinitial][xinitial] == REDMULE || CMCheckersBoard[yinitial][xinitial] == REDSOLDIER)
 			{
@@ -1208,19 +1187,31 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 			{
 				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 				CMCheckersBoard[yinitial - 1][xinitial + 1] = EMPTY;
-				if (yfinal == 0)
+				if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
 				{
-					if (CMCheckersBoard[yinitial][xinitial] == REDMULE)
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+				{
+					if (yfinal == 0)
 					{
 						cout << "Red has created a Mule King, White wins the game\n";
 						cout << "Enter any character to terminate the game then press the enter key\n";
 						cin >> endgame;
 						return 0;
 						//game over
-					}
-					if (CMCheckersBoard[yinitial][xinitial] == REDSOLDIER)
-					{
-						CMCheckersBoard[yfinal][xfinal] = REDKING;
 					}
 				}
 				return true;
@@ -1229,19 +1220,31 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 			{
 				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 				CMCheckersBoard[yinitial + 1][xinitial + 1] = EMPTY;
-				if (yfinal == (numRowsInBoard - 1))
+				if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
 				{
-					if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE)
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+				{
+					if (yfinal == (numRowsInBoard - 1))
 					{
 						cout << "White has created a Mule King, Red wins the game\n";
 						cout << "Enter any character to terminate the game then press the enter key\n";
 						cin >> endgame;
 						return 0;
 						//game over
-					}
-					if (CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
-					{
-						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
 					}
 				}
 				return true;
@@ -1282,6 +1285,44 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 					}
 				}
 				swap(CMCheckersBoard[yinitial][xinitial], CMCheckersBoard[yfinal][xfinal]);
+				if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+				{
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+				{
+					if (yfinal == 0)
+					{
+						cout << "Red has created a Mule King, White wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						cout << "White has created a Mule King, Red wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
 				return true;
 			}
 			else if ((xfinal == 1) && (ydistance == 2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
@@ -1309,12 +1350,88 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 				{
 					swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 					CMCheckersBoard[yinitial - 1][xfinal - 1] = EMPTY;
+					if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+					{
+						if (yfinal == 0)
+						{
+							CMCheckersBoard[yfinal][xfinal] = REDKING;
+							return true;
+						}
+					}
+					if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+					{
+						if (yfinal == (numRowsInBoard - 1))
+						{
+							CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+					{
+						if (yfinal == 0)
+						{
+							cout << "Red has created a Mule King, White wins the game\n";
+							cout << "Enter any character to terminate the game then press the enter key\n";
+							cin >> endgame;
+							return 0;
+							//game over
+						}
+					}
+					if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+					{
+						if (yfinal == (numRowsInBoard - 1))
+						{
+							cout << "White has created a Mule King, Red wins the game\n";
+							cout << "Enter any character to terminate the game then press the enter key\n";
+							cin >> endgame;
+							return 0;
+							//game over
+						}
+					}
 					return true;
 				}
 				if (ydirection > 0)
 				{
 					swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 					CMCheckersBoard[yinitial + 1][xfinal - 1] = EMPTY;
+					if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+					{
+						if (yfinal == 0)
+						{
+							CMCheckersBoard[yfinal][xfinal] = REDKING;
+							return true;
+						}
+					}
+					if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+					{
+						if (yfinal == (numRowsInBoard - 1))
+						{
+							CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+					{
+						if (yfinal == 0)
+						{
+							cout << "Red has created a Mule King, White wins the game\n";
+							cout << "Enter any character to terminate the game then press the enter key\n";
+							cin >> endgame;
+							return 0;
+							//game over
+						}
+					}
+					if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+					{
+						if (yfinal == (numRowsInBoard - 1))
+						{
+							cout << "White has created a Mule King, Red wins the game\n";
+							cout << "Enter any character to terminate the game then press the enter key\n";
+							cin >> endgame;
+							return 0;
+							//game over
+						}
+					}
 					return true;
 				}
 			}
@@ -1345,12 +1462,88 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 			{
 				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 				CMCheckersBoard[yinitial - 1][xinitial - 1] = EMPTY;
+				if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+				{
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+				{
+					if (yfinal == 0)
+					{
+						cout << "Red has created a Mule King, White wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						cout << "White has created a Mule King, Red wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
 				return true;
 			}
 			if (ydirection > 0)
 			{
 				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 				CMCheckersBoard[yinitial + 1][xinitial - 1] = EMPTY;
+				if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+				{
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+				{
+					if (yfinal == 0)
+					{
+						cout << "Red has created a Mule King, White wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						cout << "White has created a Mule King, Red wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
 				return true;
 			}
 		}
@@ -1379,6 +1572,44 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 					}
 				}
 				swap(CMCheckersBoard[yinitial][xinitial], CMCheckersBoard[yfinal][xfinal]);
+				if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+				{
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+				{
+					if (yfinal == 0)
+					{
+						cout << "Red has created a Mule King, White wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						cout << "White has created a Mule King, Red wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
 				return true;
 			}
 			else if ((xfinal == (numRowsInBoard - 2)) && (ydistance == 2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
@@ -1406,12 +1637,88 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 				{
 					swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 					CMCheckersBoard[yinitial - 1][xfinal + 1] = EMPTY;
+					if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+					{
+						if (yfinal == 0)
+						{
+							CMCheckersBoard[yfinal][xfinal] = REDKING;
+							return true;
+						}
+					}
+					if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+					{
+						if (yfinal == (numRowsInBoard - 1))
+						{
+							CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+					{
+						if (yfinal == 0)
+						{
+							cout << "Red has created a Mule King, White wins the game\n";
+							cout << "Enter any character to terminate the game then press the enter key\n";
+							cin >> endgame;
+							return 0;
+							//game over
+						}
+					}
+					if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+					{
+						if (yfinal == (numRowsInBoard - 1))
+						{
+							cout << "White has created a Mule King, Red wins the game\n";
+							cout << "Enter any character to terminate the game then press the enter key\n";
+							cin >> endgame;
+							return 0;
+							//game over
+						}
+					}
 					return true;
 				}
 				if (ydirection > 0)
 				{
 					swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
 					CMCheckersBoard[yinitial + 1][xfinal + 1] = EMPTY;
+					if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+					{
+						if (yfinal == 0)
+						{
+							CMCheckersBoard[yfinal][xfinal] = REDKING;
+							return true;
+						}
+					}
+					if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+					{
+						if (yfinal == (numRowsInBoard - 1))
+						{
+							CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+							return true;
+						}
+					}
+					if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+					{
+						if (yfinal == 0)
+						{
+							cout << "Red has created a Mule King, White wins the game\n";
+							cout << "Enter any character to terminate the game then press the enter key\n";
+							cin >> endgame;
+							return 0;
+							//game over
+						}
+					}
+					if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+					{
+						if (yfinal == (numRowsInBoard - 1))
+						{
+							cout << "White has created a Mule King, Red wins the game\n";
+							cout << "Enter any character to terminate the game then press the enter key\n";
+							cin >> endgame;
+							return 0;
+							//game over
+						}
+					}
 					return true;
 				}
 			}
@@ -1419,88 +1726,275 @@ bool MakeMove(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 		//normal situation
 		else if ((ydistance == 2) && (xdistance == 2) && (IsJump(CMCheckersBoard, numRowsInBoard, player, xinitial, yinitial)))
 		{
-			if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE || CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
-			{
-				if (ydirection < 0)
-				{
-					//WRONG WAAY ERROR
-					cerr << "ERROR: Illegal move\n";
-					return false;
-				}
-			}
-			//red soldiers and red mules
-			if (CMCheckersBoard[yinitial][xinitial] == REDMULE || CMCheckersBoard[yinitial][xinitial] == REDSOLDIER)
-			{
-				if (ydirection > 0)
-				{
-					//wrong way error
-					cerr << "ERROR: Illegal move\n";
-					return false;
-				}
-			}
+		if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE || CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
+		{
 			if (ydirection < 0)
 			{
-				if (xdirection < 0)
-				{
-					swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
-					CMCheckersBoard[yinitial - 1][xinitial - 1] = EMPTY;
-					return true;
-				}
-				else if (xdirection > 0)
-				{
-					swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
-					CMCheckersBoard[yinitial - 1][xinitial + 1] = EMPTY;
-					return true;
-				}
+				//WRONG WAAY ERROR
+				cerr << "ERROR: Illegal move\n";
+				return false;
 			}
+		}
+		//red soldiers and red mules
+		if (CMCheckersBoard[yinitial][xinitial] == REDMULE || CMCheckersBoard[yinitial][xinitial] == REDSOLDIER)
+		{
 			if (ydirection > 0)
 			{
-				if (xdirection < 0)
-				{
-					swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
-					CMCheckersBoard[yinitial + 1][xinitial - 1] = EMPTY;
-					return true;
-				}
-				else if (xdirection > 0)
-				{
-					swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
-					CMCheckersBoard[yinitial + 1][xinitial + 1] = EMPTY;
-					return true;
-				}
+				//wrong way error
+				cerr << "ERROR: Illegal move\n";
+				return false;
 			}
+		}
+		if (ydirection < 0)
+		{
+			if (xdirection < 0)
+			{
+				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
+				CMCheckersBoard[yinitial - 1][xinitial - 1] = EMPTY;
+				if ((CMCheckersBoard[yinitial][xinitial]) == REDSOLDIER)
+				{
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yinitial][xinitial]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				return true;
+			}
+			else if (xdirection > 0)
+			{
+				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
+				CMCheckersBoard[yinitial - 1][xinitial + 1] = EMPTY;
+				if ((CMCheckersBoard[yinitial][xinitial]) == REDSOLDIER)
+				{
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yinitial][xinitial]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+				{
+					if (yfinal == 0)
+					{
+						cout << "Red has created a Mule King, White wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						cout << "White has created a Mule King, Red wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				return true;
+			}
+		}
+		if (ydirection > 0)
+		{
+			if (xdirection < 0)
+			{
+				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
+				CMCheckersBoard[yinitial + 1][xinitial - 1] = EMPTY;
+				if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+				{
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+				{
+					if (yfinal == 0)
+					{
+						cout << "Red has created a Mule King, White wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						cout << "White has created a Mule King, Red wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				return true;
+			}
+			else if (xdirection > 0)
+			{
+				swap((CMCheckersBoard[yinitial][xinitial]), (CMCheckersBoard[yfinal][xfinal]));
+				CMCheckersBoard[yinitial + 1][xinitial + 1] = EMPTY;
+				if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+				{
+					if (yfinal == 0)
+					{
+						CMCheckersBoard[yfinal][xfinal] = REDKING;
+						return true;
+					}
+				}
+				if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+						return true;
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+				{
+					if (yfinal == 0)
+					{
+						cout << "Red has created a Mule King, White wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+				{
+					if (yfinal == (numRowsInBoard - 1))
+					{
+						cout << "White has created a Mule King, Red wins the game\n";
+						cout << "Enter any character to terminate the game then press the enter key\n";
+						cin >> endgame;
+						return 0;
+						//game over
+					}
+				}
+				return true;
+			}
+		}
 		}
 		//another normie
 		else if ((ydistance == 1) && (xdistance == 1))
 		{
-			//white s and white m
-			if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE || CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
+		//white s and white m
+		if (CMCheckersBoard[yinitial][xinitial] == WHITEMULE || CMCheckersBoard[yinitial][xinitial] == WHITESOLDIER)
+		{
+			if (ydirection < 0)
 			{
-				if (ydirection < 0)
-				{
-					//WRONG WAAY ERROR
-					cerr << "ERROR: Illegal move\n";
-					return false;
-				}
+				//WRONG WAAY ERROR
+				cerr << "ERROR: Illegal move\n";
+				return false;
 			}
-			//red soldiers and red mules
-			if (CMCheckersBoard[yinitial][xinitial] == REDMULE || CMCheckersBoard[yinitial][xinitial] == REDSOLDIER)
+		}
+		//red soldiers and red mules
+		if (CMCheckersBoard[yinitial][xinitial] == REDMULE || CMCheckersBoard[yinitial][xinitial] == REDSOLDIER)
+		{
+			if (ydirection > 0)
 			{
-				if (ydirection > 0)
-				{
-					//wrong way error
-					cerr << "ERROR: Illegal move\n";
-					return false;
-				}
+				//wrong way error
+				cerr << "ERROR: Illegal move\n";
+				return false;
 			}
-			swap(CMCheckersBoard[yinitial][xinitial], CMCheckersBoard[yfinal][xfinal]);
-			return true;
+		}
+		swap(CMCheckersBoard[yinitial][xinitial], CMCheckersBoard[yfinal][xfinal]);
+		if ((CMCheckersBoard[yfinal][xfinal]) == REDSOLDIER)
+		{
+			if (yfinal == 0)
+			{
+				CMCheckersBoard[yfinal][xfinal] = REDKING;
+				return true;
+			}
+		}
+		if ((CMCheckersBoard[yfinal][xfinal]) == WHITESOLDIER)
+		{
+			if (yfinal == (numRowsInBoard - 1))
+			{
+				CMCheckersBoard[yfinal][xfinal] = WHITEKING;
+				return true;
+			}
+		}
+		if (CMCheckersBoard[yfinal][xfinal] == REDMULE)
+		{
+			if (yfinal == 0)
+			{
+				cout << "Red has created a Mule King, White wins the game\n";
+				cout << "Enter any character to terminate the game then press the enter key\n";
+				cin >> endgame;
+				return 0;
+				//game over
+			}
+		}
+		if (CMCheckersBoard[yfinal][xfinal] == WHITEMULE)
+		{
+			if (yfinal == (numRowsInBoard - 1))
+			{
+				cout << "White has created a Mule King, Red wins the game\n";
+				cout << "Enter any character to terminate the game then press the enter key\n";
+				cin >> endgame;
+				return 0;
+				//game over
+			}
+		}
+		return true;
 		}
 		else
 		{
 			return false;
 		}
+	}
+}
 
-
+bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex)
+{
+	for (i = 0, i < sizeof(inArray1), i++)
+	{
+		if (inArray1[i] == xIndex)
+		{
+			for (j = 0, j < sizeof(inArray2), j++)
+			{
+				if (inArray2[j] == yIndex)
+				{
+					return true;
+				}
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 
