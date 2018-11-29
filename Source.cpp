@@ -1,10 +1,12 @@
 /*
 Authors: Nicholas Hung, Eli Planas, Mark Cheng
 Date Completed: November 28th, 2018
+
 Summary: The purpose of this code is to simulate a game of "Cylindrical Mule Checkers" using the
 		 premade prototypes. This game is made of two players (one for red and the other for white).
 */
 
+//Relevant Libraries
 #include <iostream>
 #include <cmath>
 #include <string>
@@ -13,7 +15,7 @@ Summary: The purpose of this code is to simulate a game of "Cylindrical Mule Che
 
 using namespace std;
 
-//Global variables
+//Globalized variable constants
 const int MAX_ARRAY_SIZE = 18;
 const int MIN_ARRAY_SIZE = 8;
 const int MAX_PIECES = 72;
@@ -31,7 +33,7 @@ const int WHITEPLAYER = 1;
 const int REDPLAYER = 2;
 const int EMPTY = 0;
 
-//for displaying the pieces
+//Variables for displaying the pieces on the board.
 const string WHITESOLDIERSTR = "WS";
 const string WHITEMULESTR = "WM";
 const string WHITEKINGSTR = "WK";
@@ -65,6 +67,7 @@ bool CheckWin(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsIn
 
 int main()
 {
+	//Defining and Initializing Variables. 
 	int myCMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE] = {};
 	int xIndicesMove[MAX_PIECES] = {};
 	int yIndicesMove[MAX_PIECES] = {};
@@ -87,8 +90,8 @@ int main()
 	int yInitial;
 	int xFinal;
 	int yFinal;
-	bool didthischekcerjump;
-	bool diditjump;
+	bool did_this_checker_jump;
+	bool did_it_jump;
 
 	numRowsInBoard = 0;
 	MAXtries = 3;
@@ -197,7 +200,7 @@ int main()
 			yInitial = getyCoordinate(numRowsInBoard, checkerMoved);
 			xInitial = getxCoordinate(numRowsInBoard, checkerMoved, yInitial);
 
-			if (player == WHITEPLAYER)
+			if (player == WHITEPLAYER) //Checking conditions for white player (including moves, board, and jumps)
 			{
 				if (myCMCheckersBoard[yInitial][xInitial] == REDKING || myCMCheckersBoard[yInitial][xInitial] == REDMULE || myCMCheckersBoard[yInitial][xInitial] == REDSOLDIER)
 				{
@@ -298,8 +301,8 @@ int main()
 
 		//determines if the move is legal
 		//if it returns *jump with true, you jumped niBBA, do it again if you can
-		bool diditjump = IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial);
-		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthischekcerjump);
+		bool did_it_jump = IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial);
+		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, did_this_checker_jump);
 
 		if (!(diditmove))
 		{
@@ -307,10 +310,10 @@ int main()
 		}
 		else
 		{
-			if (didthischekcerjump)
+			if (did_this_checker_jump)
 			{
 				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
-				if (diditjump)
+				if (did_it_jump)
 				{
 					if (IsJump(myCMCheckersBoard, numRowsInBoard, player, xFinal, yFinal))
 					{
