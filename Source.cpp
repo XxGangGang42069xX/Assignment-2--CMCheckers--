@@ -2,6 +2,7 @@
 #include <cmath>
 #include <string>
 #include <iomanip>
+#include <algorithm> //allows usage of "sizeof()" function.
 
 using namespace std;
 
@@ -36,6 +37,8 @@ const string EMPTYSTR = "0";
 void InitializeBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
 
 void DisplayBoard(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard);
+
+bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex);
 
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[]);
 
@@ -496,6 +499,27 @@ int getxCoordinate(int numRowsInBoard, int input, int yLoc)
 	int xLoc = 0;
 	xLoc = input - (yLoc * numRowsInBoard);
 	return xLoc;
+}
+
+bool CheckList(int inArray1[], int inArray2[], int xIndex, int yIndex)
+{
+	for (i = 0, i < sizeof(inArray1), i++)
+	{
+		if (inArray1[i] == xIndex)
+		{
+			for (j = 0, j < sizeof(inArray2), j++)
+			{
+				if (inArray2[j] == yIndex)
+				{
+					return true;
+				}
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
 int CountJumps(int CMCheckersBoard[MAX_ARRAY_SIZE][MAX_ARRAY_SIZE], int numRowsInBoard, int player, int xLocArray[], int yLocArray[])
