@@ -2,7 +2,7 @@
 Authors: Nicholas Hung, Eli Planas, Mark Cheng
 Date Completed: November 28th, 2018
 Summary: The purpose of this code is to simulate a game of "Cylindrical Mule Checkers" using the
-		 premade prototypes. This game is made of two players (one for red and the other for white).
+	 premade prototypes. This game is made of two players (one for red and the other for white).
 */
 
 //Relevant Libraries
@@ -89,7 +89,7 @@ int main()
 	int yFinal;
 	int countjumps;
 	int countmoves;
-	bool didthischekcerjump;
+	bool didthischeckerjump;
 	bool diditjump;
 	string endgame;
 
@@ -339,7 +339,7 @@ int main()
 		//determines if the move is legal
 		//if it returns *jump with true, you jumped niBBA, do it again if you can
 		bool diditjump = IsJump(myCMCheckersBoard, numRowsInBoard, player, xInitial, yInitial);
-		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthischekcerjump);
+		bool diditmove = MakeMove(myCMCheckersBoard, numRowsInBoard, player, checkerMoved, checkerPlaced, didthischeckerjump);
 
 		if (!(diditmove))
 		{
@@ -347,7 +347,7 @@ int main()
 		}
 		else
 		{
-			if (didthischekcerjump)
+			if (didthischeckerjump)
 			{
 				DisplayBoard(myCMCheckersBoard, numRowsInBoard);
 				if (diditjump)
